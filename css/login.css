@@ -1,0 +1,81 @@
+* {
+    margin: 0;
+    padding: 0;
+    text-decoration: none;
+    outline: none;
+    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+}
+
+body {
+    width: 100%;
+    background-color: #f0f2f5;
+    font-family: 'Segoe UI', Roboto, 'San Francisco';
+}
+
+form {
+    background-color: #fff;
+    width: 90%;
+    max-width: 600px; /* Ajusta el ancho máximo del formulario */
+    margin: 10vh auto;
+    padding: 30px 20px; /* Ajusta el relleno para hacer el formulario más grande */
+    box-shadow: 0px 0px 20px -7px;
+    border-radius: 15px;
+   
+}
+input[type='text'],
+input[type='password'] {
+    display: block;
+    background-color: #fff;
+    margin: 10px auto; 
+    border: 1.5px solid rgb(200, 200, 200);
+    width: 95%;
+    padding: 10px;
+    border-radius: 5px;
+    text-align: left;
+    color: black;
+}
+
+button {
+    border: none;
+    background-color: #1877f2;
+    color: white;
+    margin: 10px auto; 
+    width: 95%;
+    display: block;
+    border-radius: 5px;
+    padding: 10px 0;
+    font-weight: bold;
+    cursor: pointer;
+}
+
+.line {
+    border-top: 1px solid #222;
+    opacity: 0.2;
+    margin: 0px 0;
+}
+
+.new-account {
+    width: 60%; 
+    font-size: 14px;
+    background-color: #42b72a;
+    text-align: center;
+}
+
+.f-container {
+    width: 100%;
+    max-width: 350px;
+    margin: 10vh auto;
+}
+
+.f-container img {
+    width: 100%;
+    max-width: 250px;
+    height: auto; 
+}
+
+p {
+    font-size: 20px;
+    font-weight: 600;
+    word-spacing: 3px;
+    text-align: center;
+}

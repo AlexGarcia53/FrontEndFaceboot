@@ -3,21 +3,22 @@
     padding: 0;
     text-decoration: none;
     outline: none;
-    box-sizing: border-box; /* Include padding and border in the element's total width and height */
+    box-sizing: border-box; 
+    font-family: 'Roboto', sans-serif;
 }
 
 body {
     width: 100%;
     background-color: #f0f2f5;
-    font-family: 'Segoe UI', Roboto, 'San Francisco';
+   
 }
 
 form {
     background-color: #fff;
     width: 90%;
-    max-width: 600px; /* Ajusta el ancho máximo del formulario */
-    margin: 10vh auto;
-    padding: 30px 20px; /* Ajusta el relleno para hacer el formulario más grande */
+    max-width: 600px; 
+    margin: 5vh auto;
+    padding: 30px 20px; 
     box-shadow: 0px 0px 20px -7px;
     border-radius: 15px;
    
@@ -39,13 +40,19 @@ button {
     border: none;
     background-color: #1877f2;
     color: white;
-    margin: 10px auto; 
+    margin: 10px auto;
     width: 95%;
     display: block;
     border-radius: 5px;
     padding: 10px 0;
     font-weight: bold;
     cursor: pointer;
+    transition: background-color 0.3s ease; 
+}
+
+button:active,
+button:hover {
+    background-color: rgba(24, 119, 242, 0.7); 
 }
 
 .line {
@@ -54,28 +61,31 @@ button {
     margin: 0px 0;
 }
 
-.new-account {
-    width: 60%; 
-    font-size: 14px;
-    background-color: #42b72a;
-    text-align: center;
-}
-
 .f-container {
     width: 100%;
-    max-width: 350px;
-    margin: 10vh auto;
+    max-width: 300px;
+    margin: 1vh auto; 
+}
+
+.form-container {
+    background-color: #fff;
+    width: 90%;
+    max-width: 600px;
+    margin: 1vh auto 1vh; 
+    padding: 30px 20px;
+    box-shadow: 0px 0px 20px -7px;
+    border-radius: 15px;
 }
 
 .f-container img {
     width: 100%;
-    max-width: 250px;
+    max-width: 300px;
     height: auto; 
 }
 
 p {
     font-size: 20px;
-    font-weight: 600;
-    word-spacing: 3px;
+    font-weight: 500;
+    word-spacing: 2px;
     text-align: center;
 }

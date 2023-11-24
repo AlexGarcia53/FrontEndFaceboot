@@ -1,78 +1,89 @@
 
+import { login } from '../../services/usuarioService.js';
+import '../modals/register.js'
+
 
 class Login extends HTMLElement {
+
+  constructor() {
+    super();
     
-    #usernameInput;
-    #passwordInput;
-    #loginButton;
-  
-    constructor() {
-      super();
-    }
-  
-    connectedCallback() {
-      const shadow = this.attachShadow({ mode: 'open' });
-      this.#render(shadow);
-      this.#agregaEstilo(shadow);	
-      this.#initializeElements(shadow);
-      this.#addEventListeners();
-    }
-  
-    #render(shadow) {
-      shadow.innerHTML = `
-      <form actions="">
+
+  }
+
+  connectedCallback() {
+    const shadow = this.attachShadow({ mode: 'open' });
+    const register = document.createElement('register-comp');
+    this.appendChild(register);
+    this.#render(shadow);
+    this.#agregaEstilo(shadow);
+    this.#addEventListeners(shadow);
+
+  }
+
+  #render(shadow) {
+    shadow.innerHTML = `
+      <form actions="" id="form-login">
         <div>
          
-          <input type="text" id="username" placeholder="Username">
+          <input name= "username" type="text" id="username" placeholder="Username">
         </div>
         <div>
           
-          <input type="password" id="password" placeholder="Contraseña">
+          <input name= "password" type="password" id="password" placeholder="Contraseña">
         </div>
         <button id="login">Iniciar sesión</button>
-        <div class="line"></div> <br>
-        <button class="new-account"> Crear cuenta nueva</button>
+        <div class="line"></div> 
+        <register-comp></register-comp>
       </form>
-    
 
       `;
-    }
+  }
 
-    #agregaEstilo(shadow){		
-		let link = document.createElement("link");
-		link.setAttribute("rel","stylesheet");
-		link.setAttribute("href","../css/login.css");		
-		shadow.appendChild(link);
-	}
-  
-    #initializeElements(shadow) {
-      this.#usernameInput = shadow.getElementById('username');
-      this.#passwordInput = shadow.getElementById('password');
-      this.#loginButton = shadow.getElementById('login');
-    }
-  
-    #addEventListeners() {
-      this.#loginButton.addEventListener('click', () => this.#handleLogin());
-    }
-  
-    async #handleLogin() {
-      
-      const username = this.#usernameInput.value;
-      const password = this.#passwordInput.value;
-  
-      try {
-        const data = await usuarioService.login(username, password);
-        console.log(data);
-        if (data.success) {
-          alert('Inicio de sesión exitoso');
-        
-        } else {
-          alert('Las credenciales son incorrectas');
-        }
-      } catch (error) {
-        console.error(error);
+  #agregaEstilo(shadow) {
+    let link = document.createElement("link");
+    link.setAttribute("rel", "stylesheet");
+    link.setAttribute("href", "../css/login.css");
+    shadow.appendChild(link);
+  }
+
+
+
+  #addEventListeners(shadow) {
+    const formLogin = shadow.getElementById('form-login');
+    formLogin.addEventListener('submit', this.#handleLogin.bind(this)); // Añade .bind(this) para asegurarte de que 'this' se refiera a la instancia de la clase
+
+  }
+
+  async #handleLogin(event) {
+    event.preventDefault();
+    const formData = new FormData(event.target);
+    const username = formData.get('username');
+    const password = formData.get('password');
+    console.log("hola login");
+    try {
+      const token = await login(username, password);
+      console.log(token);
+      if (token) {
+        alert('Inicio de sesión exitoso');
+      } else {
+        alert('Las credenciales son incorrectas');
       }
+    } catch (error) {
+      console.error(error);
     }
   }
-  
-  customElements.define('login-comp', Login);
+
+
+//   #handleRegister(e) {
+//     e.preventDefault();
+
+//     console.log('Clic en el botón de registro');
+//     const registerComponent = document.querySelector('register-comp');
+//     console.log(registerComponent);
+//     registerComponent.open();
+// }
+
+}
+
+customElements.define('login-comp', Login);

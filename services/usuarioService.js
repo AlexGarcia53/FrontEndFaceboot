@@ -1,31 +1,67 @@
-export class UsuarioService {
 
-    static async login(username, contrasenia) {
-        const url = 'http://localhost:2222/api/v2/auth/IniciarSesion'; 
-        try {
-            const response = await fetch(url, {
-                method: "POST",
-                headers: {
-                    'Content-Type': 'application/json'
-                },
-                body: JSON.stringify({
-                    username: username,
-                    contrasenia: contrasenia
-                })
-            });
+export async function login(username, contrasenia) {
+    const url = 'http://localhost:2222/auth/iniciarSesion/';
 
-            if (!response.ok) {
-                throw new Error('Credenciales inválidas');
-            }
+    try {
+        const response = await fetch(url, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                username: username,
+                contrasenia: contrasenia
+            })
+        });
 
-            const token = await response.json();
-            console.log(token);
-            return token;
-        } catch (error) {
-            console.error('Error al iniciar sesión:', error.message);
-            throw error;
+        const data = await response.json();
+
+        if (!response.ok) {
+            alert(data.error); 
+            throw new Error(data.error);
         }
+
+        console.log(data); 
+        return data; 
+    } catch (error) {
+        console.error('Error al iniciar sesión:', error.message);
+        throw error;
     }
 }
 
-module.exports = UsuarioService;
+export async function register(usertag, username, contrasenia, sexo, fechaNacimiento) {
+    const url = 'http://localhost:2222/api/v2/usuario/';
+
+    try {
+        const response = await fetch(url, {
+            method: "POST",
+            headers: {
+                'Content-Type': 'application/json'
+            },
+            body: JSON.stringify({
+                usertag: usertag,
+                username: username,
+                contrasenia: contrasenia,
+                sexo: sexo,
+                fechaNacimiento: fechaNacimiento
+            })
+        });
+
+        const data = await response.json();
+
+        if (!response.ok) {
+            alert(data.error); 
+            throw new Error(data.error);
+        }
+
+        console.log(data); 
+        return data; 
+    } catch (error) {
+        console.error('Error al registrar:', error.message);
+        throw error;
+    }
+}
+
+
+
+

@@ -7,8 +7,6 @@ class Login extends HTMLElement {
 
   constructor() {
     super();
-    
-
   }
 
   connectedCallback() {
@@ -60,12 +58,15 @@ class Login extends HTMLElement {
     const formData = new FormData(event.target);
     const username = formData.get('username');
     const password = formData.get('password');
-    console.log("hola login");
+
     try {
       const token = await login(username, password);
       console.log(token);
       if (token) {
+        localStorage.setItem('jwtToken', token);
         alert('Inicio de sesión exitoso');
+
+        window.location.href = 'home.html';
       } else {
         alert('Las credenciales son incorrectas');
       }

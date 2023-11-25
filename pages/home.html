@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html lang="es">
+
+<head>
+  <meta charset="UTF-8">
+
+  <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script type="module" src="../components/publicar/publicar.js"></script>
+  <title>Faceboot</title>
+</head>
+
+<body>
+
+  <publicar-comp></publicar-comp>
+
+ 
+  <!-- 
+    PRUEBA WEB SOCKET
+    <ul id="messages"></ul>
+  <input type="text" id="mensajeInput" placeholder="Escribe tu mensaje">
+  <button id="enviarMensaje">Enviar Mensaje</button>
+
+  <script type="module">
+    import { io } from 'https://cdn.socket.io/4.3.2/socket.io.esm.min.js';
+
+    const socket = io('http://localhost:2222');
+
+    const button = document.getElementById('enviarMensaje');
+    const input = document.getElementById('mensajeInput');
+    const messages = document.getElementById('messages');
+
+    socket.on('chat message', (msg) => {
+      const item = `<li>${msg}</i>`
+      messages.insertAdjacentHTML('beforeend', item);
+    })
+
+    button.addEventListener('click', (e) => {
+      e.preventDefault()
+
+      if(input.value){
+        socket.emit('chat message', input.value);
+        input.value = '';
+      }
+
+    })
+  
+    socket.on('connect', () => {
+      console.log('Conectado al servidor de Socket.io');
+    });
+
+    socket.on('mensaje', (mensaje) => {
+      io.emit('mensaje', mensaje)
+    });
+  
+
+
+  </script> -->
+</body>
+
+</html>

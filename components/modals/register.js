@@ -22,7 +22,7 @@ export class Register extends HTMLElement {
                     <h2>Registrate</h2>
                     <h3>Es rápido y fácil.<h3>
                     <div class="line"></div> 
-                    <form action="" id="form-register">
+                    <form action="" id="my-form-register">
                         <div>
                             <input name="newUsertag" type="text" id="new-usertag" placeholder="Usertag">
                         </div>
@@ -54,6 +54,7 @@ export class Register extends HTMLElement {
         `;
         this.#agregaEstilo();
         this.#toggleModal();
+  
         this.#addEventListeners();
            
     }
@@ -67,15 +68,23 @@ export class Register extends HTMLElement {
 
 
     #addEventListeners() {
-        const closeModalButton = this.shadowRoot.getElementById('close-modal');
-        closeModalButton.addEventListener('click', this.#closeRegisterModal.bind(this));
-
-        const formRegister = this.shadowRoot.getElementById('form-register');
-        
-        formRegister.addEventListener('submit', this.#handleRegister.bind(this)); 
-        console.log(this.shadowRoot.innerHTML)
+        const closeModalButton = this.shadowRoot.querySelector('#close-modal');
+        const formRegister = this.shadowRoot.querySelector('#my-form-register');
+    
+        if (closeModalButton) {
+            closeModalButton.addEventListener('click', this.#closeRegisterModal.bind(this));
+        } else {
+            console.error("Element with ID 'close-modal' not found.");
+        }
+    
+        if (formRegister) {
+            formRegister.addEventListener('submit', this.#handleRegister.bind(this)); 
+        } else {
+            console.error("Element with ID 'form-register' not found.");
+        }
     }
-
+    
+    
     #closeRegisterModal() {
         const modal = this.shadowRoot.querySelector("#modal-register");
         modal.classList.remove("modal-open");

@@ -62,6 +62,48 @@ export async function register(usertag, username, contrasenia, sexo, fechaNacimi
     }
 }
 
+export async function update(username, contrasenia, sexo, fechaNacimiento){
+    const url= 'http://localhost:2222/api/v2/usuario/editar';
+
+    const token = localStorage.getItem('jwtToken');
+
+    if (!token) {      
+        alert('Token no encontrado. Inicia sesión para obtener uno.');  
+        return;
+    }
+
+
+    try{
+        const response= await fetch(url, {
+            method: "PUT",
+            headers:{
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }, 
+            body: JSON.stringify({
+                username: username,
+                contrasenia: contrasenia, 
+                sexo: sexo, 
+                fechaNacimiento: fechaNacimiento
+            })
+        });
+
+        const data= await response.json();
+        
+        if(!response.ok){
+            alert(data.error);
+            throw new Error(data.error)
+        }
+
+        console.log(data);
+        return data;
+    }
+    catch(error){
+        console.error('Ocurrió un error al actualizar el usuario', error.message);
+        throw error;
+    }
+}
+
 export function obtenerUsuarioDesdeToken(token) {
     try {
         const payloadBase64 = token.split('.')[1];

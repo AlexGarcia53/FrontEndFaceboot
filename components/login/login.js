@@ -66,7 +66,7 @@ class Login extends HTMLElement {
         localStorage.setItem('jwtToken', token);
         alert('Inicio de sesión exitoso');
 
-        window.location.href = 'home.html';
+        window.location.href = 'user.html';
       } else {
         alert('Las credenciales son incorrectas');
       }

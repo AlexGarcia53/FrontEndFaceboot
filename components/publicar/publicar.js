@@ -9,7 +9,7 @@ class Publicar extends HTMLElement {
 
   connectedCallback() {
     const shadow = this.attachShadow({ mode: 'open' });
-   
+
     this.#render(shadow);
     this.#consultaUsuario();
     this.#agregaEstilo(shadow);
@@ -48,17 +48,15 @@ class Publicar extends HTMLElement {
     const usuario = obtenerUsuarioDesdeToken(token);
     const usertag = usuario.userId;
     const username = usuario.username;
-  
-    // Obtén el elemento p con id "nombreUsuario"
+
     const usertagElement = this.shadowRoot.getElementById('usertag');
     const usernameElement = this.shadowRoot.getElementById('username');
     const text = this.shadowRoot.getElementById('text-publicar');
-  
-  
-    usertagElement.textContent = usertag; // Ajusta la propiedad adecuada según la estructura del objeto usuario
+
+    usertagElement.textContent = usertag;
     usernameElement.textContent = username;
     text.textContent = `¿Qué estás pensando, ${username}?`;
-    
+
   }
 
 

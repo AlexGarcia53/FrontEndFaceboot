@@ -10,6 +10,7 @@ export class Update extends HTMLElement{
     connectedCallback(){
         this.attachShadow({mode: 'open'}); 
         this.#render();
+        
     }
 
     #render(){
@@ -22,10 +23,10 @@ export class Update extends HTMLElement{
             <div class="line"></div>
             <form action="" id="my-form-update">
                 <div>
-                    <input name="uptUsername" type="text" id="upt-username" placeholder="Username">
+                    <input name="uptUsername" type="text" id="upt-username" maxlength="25" placeholder="Username">
                 </div>
                 <div>
-                    <input name="uptPassword" type="password" id="upt-password" placeholder="Contraseña">
+                    <input name="uptPassword" type="password" id="upt-password" maxlength="20" placeholder="Contraseña">
                 </div>
                 <div>
                     <label for="gender">Sexo:</label>
@@ -45,7 +46,7 @@ export class Update extends HTMLElement{
     <button id="update" class="update-account"> Editar Perfil </button>`;
     this.#agregarEstilo();
     this.#toggleModal();
-
+    this.#consultaUsuario();
     this.#addEventListeners();
     }
 
@@ -80,19 +81,13 @@ export class Update extends HTMLElement{
 
     async #handleUpdate(event){
         event.preventDefault();
-        const token= localStorage.getItem('jwtToken');
-        const usuario= obtenerUsuarioDesdeToken(token);
-        console.log("hola");
+
         const formData= new FormData(event.target);
         const username= formData.get('uptUsername');
         const password= formData.get('uptPassword');
         const gender= formData.get('gender');
         const birthdate= formData.get('birthdate'); 
-        console.log(usuario);
-        console.log(username);
-        console.log(password);
-        console.log(gender);
-        console.log(birthdate);
+
 
         try{
             const data= await update(username, password, gender, birthdate);
@@ -112,6 +107,32 @@ export class Update extends HTMLElement{
         const button= this.shadowRoot.querySelector(".update-account");
         button.addEventListener("click", () => modal.classList.add("modal-open"));
     }
+
+    #consultaUsuario() {
+        const token= localStorage.getItem('jwtToken');
+        const usuario= obtenerUsuarioDesdeToken(token);
+     
+        const usernameElement = this.shadowRoot.getElementById('upt-username');
+        const passwordElement = this.shadowRoot.getElementById('upt-password');
+        const genderElement = this.shadowRoot.getElementById('gender');
+        const birthdateElement = this.shadowRoot.getElementById('birthdate');
+   
+    
+
+        const fechaNacimientoDate = new Date(usuario.fechaNacimiento);
+        const formattedDate = fechaNacimientoDate.toISOString().split('T')[0];
+        
+        console.log(usuario.fechaNacimiento);
+        console.log('hola');
+        console.log(formattedDate);
+
+        usernameElement.value = usuario.username;
+        passwordElement.value = usuario.contrasenia;
+        genderElement.value = usuario.sexo;
+        birthdateElement.value = formattedDate;
+
+    }
+
 }
 
 customElements.define('update-comp', Update);

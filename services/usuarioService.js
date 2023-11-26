@@ -66,7 +66,10 @@ export async function update(username, contrasenia, sexo, fechaNacimiento){
     const url= 'http://localhost:2222/api/v2/usuario/editar';
 
     const token = localStorage.getItem('jwtToken');
+    const usuario = obtenerUsuarioDesdeToken(token);
+    const usertag = usuario.userId;
 
+    
     if (!token) {      
         alert('Token no encontrado. Inicia sesión para obtener uno.');  
         return;
@@ -81,6 +84,7 @@ export async function update(username, contrasenia, sexo, fechaNacimiento){
                 'Authorization': `Bearer ${token}`
             }, 
             body: JSON.stringify({
+                usertag: usertag,
                 username: username,
                 contrasenia: contrasenia, 
                 sexo: sexo, 

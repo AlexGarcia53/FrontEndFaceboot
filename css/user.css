@@ -1,3 +1,7 @@
+* {
+    font-family: 'Roboto', sans-serif;
+}
+
 .modal {
     display: none;
     position: fixed;
@@ -54,7 +58,7 @@ input[type='password'] {
 
 button {
     border: none;
-    background-color: #42b72a;
+    background-color: #1877f2;
     color: white;
     margin: 10px auto;
     padding: 10px;
@@ -72,23 +76,9 @@ button {
     margin: 0px 0;
 }
 
-button {
-    border: none;
-    background-color: #42b72a;
-    color: white;
-    margin: 10px auto;
-    padding: 10px;
-    border-radius: 5px;
-    font-weight: bold;
-    cursor: pointer;
-    display: block;
-    width: 70%;
-    transition: background-color 0.3s ease; 
-}
-
 button:active,
 button:hover {
-    background-color: rgba(66, 183, 42, 0.7); 
+    background-color: rgba(24, 119, 242, 0.7); 
 }
 
 #birthdate {

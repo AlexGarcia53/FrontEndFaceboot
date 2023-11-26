@@ -16,6 +16,7 @@ class PublicationContent extends HTMLElement {
     #render(shadow, texto, imagen){
         if(texto && imagen){
             shadow.innerHTML = `
+            
                 <div class="texto-publicacion">
                     <p>${texto}</p>
                 </div>

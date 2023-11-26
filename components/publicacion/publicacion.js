@@ -51,7 +51,9 @@ class Publication extends HTMLElement {
                     comentarios.forEach(comentario => {
                         comentariosHTML+=`<publication-comment usertag="${comentario.usuarioID}" texto="${comentario.texto}" imagen="${comentario.img}"></publication-comment>`
                     });
+                    
                     this.#render(shadow, publicacion, comentariosHTML);
+                    this.#agregaEstilo(shadow);
                 }
             } else {
                 alert('Las credenciales son incorrectas');

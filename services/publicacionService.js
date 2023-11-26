@@ -6,7 +6,7 @@ export async function obtenerPublicacion() {
         return;
     }
     
-    const url = 'http://localhost:2222/api/v2/publicacion/651ce36b9be41c0ebdc0c8e1';
+    const url = 'http://localhost:2222/api/v2/publicacion/655ab0a1244aa9773b7ed2e1';
 
     try {
         const response = await fetch(url, {

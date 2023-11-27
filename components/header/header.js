@@ -24,7 +24,6 @@ document.addEventListener("DOMContentLoaded", function () {
           <nav>
           <div class="nav-left">
               <img src="/imgs/logo-letras-blancas.png" class="logo">
-  
               <div class="barra-busqueda">
                   <svg id="add-publication" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="22"
                       height="22" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none"

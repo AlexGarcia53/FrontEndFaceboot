@@ -1,5 +1,5 @@
 
-import { obtenerUsuarioDesdeToken } from '../../services/usuarioService.js';
+import { obtenerUsuarioDesdeToken, obtenerUsuario } from '../../services/usuarioService.js';
 class Publicar extends HTMLElement {
 
   constructor() {
@@ -32,8 +32,8 @@ class Publicar extends HTMLElement {
       </div>
   </div>
 
-</div>
-      `;
+</div>`
+      ;
   }
 
   #agregaEstilo(shadow) {
@@ -43,11 +43,13 @@ class Publicar extends HTMLElement {
     shadow.appendChild(link);
   }
 
-  #consultaUsuario() {
+  async #consultaUsuario() {
     const token = localStorage.getItem('jwtToken');
     const usuario = obtenerUsuarioDesdeToken(token);
     const usertag = usuario.userId;
-    const username = usuario.username;
+
+    const usuarioactualizado = await obtenerUsuario(usertag, token);
+    const username = usuarioactualizado.username;
 
     const usertagElement = this.shadowRoot.getElementById('usertag');
     const usernameElement = this.shadowRoot.getElementById('username');

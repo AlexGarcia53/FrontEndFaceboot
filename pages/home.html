@@ -6,15 +6,22 @@
 
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link rel="stylesheet" href="../css/header.css">
+  <script type="module" src="../components/modals/update.js"></script>
+  <script type="module" src="../components/header/header.js"></script> 
   <script type="module" src="../components/publicar/publicar.js"></script>
   <title>Faceboot</title>
 </head>
 
 <body>
+  <header>
+    <header-comp></header-comp>
+  </header>
+  <update-comp></update-comp>
+ 
 
-
-  
   <publicar-comp></publicar-comp>
+
 
  
   <!-- 
@@ -33,7 +40,7 @@
     const messages = document.getElementById('messages');
 
     socket.on('chat message', (msg) => {
-      const item = `<li>${msg}</i>`
+      const item = <li>${msg}</i>
       messages.insertAdjacentHTML('beforeend', item);
     })
 
@@ -46,7 +53,7 @@
       }
 
     })
-  
+
     socket.on('connect', () => {
       console.log('Conectado al servidor de Socket.io');
     });
@@ -54,7 +61,7 @@
     socket.on('mensaje', (mensaje) => {
       io.emit('mensaje', mensaje)
     });
-  
+
 
 
   </script> -->

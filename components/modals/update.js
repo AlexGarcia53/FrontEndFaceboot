@@ -1,5 +1,5 @@
 import { update } from '../../services/usuarioService.js';
-import { obtenerUsuarioDesdeToken } from '../../services/usuarioService.js';
+import { obtenerUsuarioDesdeToken, obtenerUsuario } from '../../services/usuarioService.js';
 
 export class Update extends HTMLElement{
     
@@ -23,7 +23,7 @@ export class Update extends HTMLElement{
             <div class="line"></div>
             <form action="" id="my-form-update">
                 <div>
-                    <input name="uptUsername" type="text" id="upt-username" maxlength="25" placeholder="Username">
+                    <input name="uptUsername" type="text" id="upt-username" maxlength="20" placeholder="Username">
                 </div>
                 <div>
                     <input name="uptPassword" type="password" id="upt-password" maxlength="20" placeholder="Contraseña">
@@ -43,9 +43,9 @@ export class Update extends HTMLElement{
             </form>
         </div>
     </div>
-    <button id="update" class="update-account"> Editar Perfil </button>`;
+    `;
     this.#agregarEstilo();
-    this.#toggleModal();
+
     this.#consultaUsuario();
     this.#addEventListeners();
     }
@@ -94,41 +94,33 @@ export class Update extends HTMLElement{
             console.log(data);
             if(data){
                 alert('Usuario Actualizado');
+                
                 this.#closeUpdateModal();
+                this.#consultaUsuario();
             }
         } catch(error){
             console.error(error);
         }
     }
 
-    #toggleModal(){
-
-        const modal= this.shadowRoot.querySelector("#modal-user");
-        const button= this.shadowRoot.querySelector(".update-account");
-        button.addEventListener("click", () => modal.classList.add("modal-open"));
-    }
-
-    #consultaUsuario() {
+    async #consultaUsuario() {
         const token= localStorage.getItem('jwtToken');
         const usuario= obtenerUsuarioDesdeToken(token);
-     
+        const usertag = usuario.userId;
+    
+        const usuarioactualizado = await obtenerUsuario(usertag, token);
+        
         const usernameElement = this.shadowRoot.getElementById('upt-username');
         const passwordElement = this.shadowRoot.getElementById('upt-password');
         const genderElement = this.shadowRoot.getElementById('gender');
         const birthdateElement = this.shadowRoot.getElementById('birthdate');
-   
-    
 
-        const fechaNacimientoDate = new Date(usuario.fechaNacimiento);
+        const fechaNacimientoDate = new Date(usuarioactualizado.fechaNacimiento);
         const formattedDate = fechaNacimientoDate.toISOString().split('T')[0];
-        
-        console.log(usuario.fechaNacimiento);
-        console.log('hola');
-        console.log(formattedDate);
-
-        usernameElement.value = usuario.username;
-        passwordElement.value = usuario.contrasenia;
-        genderElement.value = usuario.sexo;
+    
+        usernameElement.value = usuarioactualizado.username;
+        passwordElement.value = usuarioactualizado.contrasenia;
+        genderElement.value = usuarioactualizado.sexo;
         birthdateElement.value = formattedDate;
 
     }

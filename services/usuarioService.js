@@ -53,7 +53,7 @@ export async function register(usertag, username, contrasenia, sexo, fechaNacimi
             throw new Error(data.error);
         }
 
-        console.log(data); 
+
         return data; 
     } catch (error) {
         console.error('Error al registrar:', error.message);
@@ -98,7 +98,6 @@ export async function update(username, contrasenia, sexo, fechaNacimiento){
             throw new Error(data.error)
         }
 
-        console.log(data);
         return data;
     }
     catch(error){
@@ -138,7 +137,7 @@ export async function obtenerUsuario(usertag, token) {
             throw new Error(data.error);
         }
 
-        console.log(data);
+
         return data;
     } catch (error) {
         console.error('Error al obtener usuario:', error.message);
@@ -146,45 +145,6 @@ export async function obtenerUsuario(usertag, token) {
     }
 }
 
-export async function crearPublicacion(fechaCreacion, texto, img) {
-    
-    const token = localStorage.getItem('jwtToken');
-
-    if (!token) {      
-        alert('Token no encontrado. Inicia sesión para obtener uno.');  
-        return;
-    }
-
-    const url = 'http://localhost:2222/api/v2/publicacion/crear';
-
-    try {
-        const response = await fetch(url, {
-            method: 'POST',
-            headers: {
-                'Content-Type': 'application/json',
-                'Authorization': `Bearer ${token}`
-            },
-            body: JSON.stringify({
-                fechaCreacion: fechaCreacion,
-                texto: texto,
-                img: img
-            })
-        });
-
-        const data = await response.json();
-
-        if (!response.ok) {
-            alert(data.error);
-            throw new Error(data.error);
-        }
-
-        console.log(data);
-        return data;
-    } catch (error) {
-        console.error('Error al crear publicación:', error.message);
-        throw error;
-    }
-}
 
 
 

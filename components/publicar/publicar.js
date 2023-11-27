@@ -1,10 +1,12 @@
 
 import { obtenerUsuarioDesdeToken, obtenerUsuario } from '../../services/usuarioService.js';
+import '../modals/addPublication.js'
+
 class Publicar extends HTMLElement {
 
   constructor() {
     super();
-    this.userId = ''; // Almacena el userId
+  
   }
 
   connectedCallback() {
@@ -13,6 +15,9 @@ class Publicar extends HTMLElement {
     this.#render(shadow);
     this.#consultaUsuario();
     this.#agregaEstilo(shadow);
+    const updateComp = document.createElement('addpublication-comp');
+    shadow.appendChild(updateComp);
+    this.#addEventListeners(shadow)
   }
 
   #render(shadow) {
@@ -60,6 +65,24 @@ class Publicar extends HTMLElement {
     usernameElement.textContent = username;
     text.textContent = `¿Qué estás pensando, ${username}?`;
 
+  }
+
+  #addEventListeners(shadow) {
+    const butonPublicar = shadow.querySelector("#publicar");
+    console.log(butonPublicar);
+    butonPublicar.addEventListener("click", () => this.#openPublicationModal(shadow));
+  }
+
+  #openPublicationModal(shadow) {
+    const addPubComp = shadow.querySelector('addpublication-comp');
+    
+    if (addPubComp) {
+      const modal = addPubComp.shadowRoot.querySelector("#modal-publicacion");
+      if (modal) {
+        
+        modal.classList.add("modal-open");
+      }
+    }
   }
 
 

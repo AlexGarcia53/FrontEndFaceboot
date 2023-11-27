@@ -1,0 +1,122 @@
+
+.modal {
+    
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.modal-open {
+    display: flex;
+}
+
+.modal-content {
+    background-color: #fff;
+    width: 500px; 
+    margin: 10% auto;
+    padding: 20px;
+    box-shadow: 0px 0px 20px -7px;
+    border-radius: 10px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#modal-publicar {
+    margin: auto;
+    height: 350px;
+    width: 400px;
+    overflow: hidden;
+    outline: none;
+    border: 0;
+    border-radius: 12px;
+}
+
+.header-modal-publicar {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #ccc;
+}
+
+.header-modal-publicar p {
+    text-align: center;
+    user-select: none;
+    margin: auto;
+    margin-right: auto;
+
+}
+
+.header-modal-publicar svg {
+    cursor: pointer;
+    border-radius: 50%;
+
+
+}
+
+.body-modal-publicar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 65%;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.body-modal-publicar textarea {
+    height: 100%;
+    width: 100%;
+    padding: 30px;
+    resize: none;
+    outline: none;
+    border: 0;
+    background: transparent;
+    box-sizing: border-box;
+}
+
+.footer-modal-publicar {
+    border-top: 1px solid #ccc;
+}
+
+.modal-anadir-img {
+    display: flex;
+    cursor: pointer;
+    user-select: none;
+    justify-content: space-between;
+    margin: 10px 15%;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+}
+
+.modal-anadir-img p {
+    display: flex;
+    padding: 10px 0px 10px 20px;
+    align-items: center;
+
+
+}
+
+#btn-publicar {
+    display: flex;
+    cursor: pointer;
+    height: 30px;
+    user-select: none;
+    margin: 10px 15%;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+}
+
+#btn-publicar p {
+    margin: auto;
+}
+
+.modal-anadir-img svg {
+    margin: auto;
+}
+
+#modal-publicar::backdrop {
+    background-color: rgba(0, 0, 0, .55);
+}

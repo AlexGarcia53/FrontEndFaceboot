@@ -1,0 +1,158 @@
+
+.modal {
+    
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+.modal-open {
+    display: flex;
+}
+
+.custom-file-input {
+    display: flex;
+    cursor: pointer;
+    user-select: none;
+    justify-content: center; 
+    align-items: center; 
+    margin: 10px auto; 
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    width: 70%;
+}
+
+.icon-tabler-photo-plus {
+    margin-left: 25px;
+}
+
+.custom-file-input:hover {
+
+    background-color: #88c57b;
+    color:#fff
+}
+
+.modal-content {
+    background-color: #fff;
+    width: 420px; 
+    height: 290px;
+    margin: 10% auto;
+    overflow: visible; 
+    padding: 40px;
+    box-shadow: 0px 0px 20px -7px;
+    border-radius: 10px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+#modal-publicar {
+    margin: auto;
+    height: 350px;
+    width: 420px;
+    overflow: hidden;
+    outline: none;
+    border: 0;
+    border-radius: 12px;
+}
+
+.header-modal-publicar {
+    display: flex;
+    justify-content: space-between;
+    border-bottom: 1px solid #ccc;
+}
+
+.header-modal-publicar p {
+    text-align: center;
+    user-select: none;
+    margin: auto;
+    font-weight: bold;
+    
+}
+
+.header-modal-publicar svg {
+    cursor: pointer;
+    border-radius: 50%;
+
+}
+
+.body-modal-publicar {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 65%;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+.body-modal-publicar textarea {
+    height: 100%;
+    width: 90%;
+    padding: 30px;
+    resize: none;
+    outline: none;
+    border: 0;
+    background: transparent;
+    box-sizing: border-box;
+}
+
+.footer-modal-publicar {
+    border-top: 1px solid #ccc;
+}
+
+.modal-anadir-img {
+    display: flex;
+    cursor: pointer;
+    user-select: none;
+    justify-content: center; 
+    align-items: center; 
+    margin: 10px auto; 
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    width: 70%;
+}
+
+.modal-anadir-img p {
+    margin-left: 10px;
+    padding-right: 30x 45px 30px 0px;
+    flex: 1; 
+    color: black;
+    align-items: center;
+}
+
+#btn-publicar {
+    display: flex;
+    cursor: pointer;
+    user-select: none;
+    justify-content: center; 
+    align-items: center; 
+    margin: 10px auto; 
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    width: 70%;
+    padding: 2%;
+    font-size: 16px; 
+
+
+}
+
+#btn-publicar:hover {
+    background-color: rgb(75, 128, 199);
+    color:#fff
+}
+
+.modal-anadir-img svg {
+    margin-right: 45px; 
+    padding: 10px;
+    transform: translateY(-8px); 
+}
+
+#modal-publicar::backdrop {
+    background-color: rgba(0, 0, 0, .55);
+}
+

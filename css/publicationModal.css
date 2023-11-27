@@ -14,9 +14,11 @@
 
 .modal-content {
     background-color: #fff;
-    width: 500px; 
+    width: 347px; 
+    height: 290px;
     margin: 10% auto;
-    padding: 20px;
+    overflow: visible; 
+    padding: 40px;
     box-shadow: 0px 0px 20px -7px;
     border-radius: 10px;
     position: relative;
@@ -85,18 +87,20 @@
     display: flex;
     cursor: pointer;
     user-select: none;
-    justify-content: space-between;
-    margin: 10px 15%;
+    justify-content: center; 
+    align-items: center; 
+    margin: 10px auto; 
     border: 1px solid #ccc;
     border-radius: 15px;
+    width: 70%;
 }
 
 .modal-anadir-img p {
-    display: flex;
-    padding: 10px 0px 10px 20px;
+    margin-left: 10px;
+    padding-right: 30x 45px 30px 0px;
+    flex: 1; 
+    color: black;
     align-items: center;
-
-
 }
 
 #btn-publicar {
@@ -110,13 +114,30 @@
 }
 
 #btn-publicar p {
-    margin: auto;
+    margin: 0;
 }
 
 .modal-anadir-img svg {
-    margin: auto;
+    margin-right: 45px; 
+    padding: 10px;
+    transform: translateY(-8px); 
 }
 
 #modal-publicar::backdrop {
     background-color: rgba(0, 0, 0, .55);
+}
+
+#btn-publicar {
+    display: flex;
+    align-items: center;
+    justify-content: center; 
+    height: 30px;
+    user-select: none;
+    margin: -10px auto;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    background-color: rgba(24, 119, 242, 1); 
+    width: 25%;
+    color: white !important;;
+    font-weight: bold;
 }

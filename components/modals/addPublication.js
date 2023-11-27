@@ -1,4 +1,4 @@
-import { obtenerUsuarioDesdeToken } from "../../services/usuarioService.js";
+import { obtenerUsuarioDesdeToken, obtenerUsuario } from "../../services/usuarioService.js";
 import { addPublication } from "../../services/publicacionService.js";
 
 class AddPublication extends HTMLElement {
@@ -10,6 +10,7 @@ class AddPublication extends HTMLElement {
         this.attachShadow({ mode: 'open' });
         this.#render();
         this.#agregaEstilo();
+        this.#consultaUsuario();
 
     }
 
@@ -22,7 +23,7 @@ class AddPublication extends HTMLElement {
                             <p>Crear publicación</p>
                             <svg id="close-modal" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
                                 width="44" height="44" viewBox="0 0 24 24" stroke-width="" stroke="#ff2825" fill="none"
-                                stroke-linecap="round" stroke-linejoin="round">
+                                stroke-linecap="round" stroke-linejoin="round" style="margin-right: 35px;">
                                 <path stroke="none" d="M0 0h24v24H0z" fill="none" />
                                 <path d="M12 12m-9 0a9 9 0 1 0 18 0a9 9 0 1 0 -18 0" />
                                 <path d="M10 10l4 4m0 -4l-4 4" />
@@ -30,7 +31,7 @@ class AddPublication extends HTMLElement {
                         </div>
                         <form action="" id="my-form-add">
                         <div class="body-modal-publicar">
-                            <textarea id="textAreaPublicar" class="textAreaPublicar" placeholder="¿Qué estás pensando, Alex?" required>
+                            <textarea id="textAreaPublicar" class="textAreaPublicar" placeholder="Escribir comentario" required>
                             </textarea>
                         </div>
 
@@ -38,11 +39,11 @@ class AddPublication extends HTMLElement {
                             <div class="modal-anadir-img" id="add-image">
                             
                                 <p>Añadir a tu publicación</p>
-                                <input type="file" accept="image/*" id="imageInput" />
+                                <label for="imageInput" class="custom-file-input" style="font-size: 4px; margin-bottom: -15px;">
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-photo-plus"
-                                    width="44" height="44" viewBox="0 0 24 24" stroke-width="1" stroke="#00b341" fill="none"
-                                    stroke-linecap="round" stroke-linejoin="round">
-                                    <path stroke="none" d="M0 0h24v24H0z" fill="none" />
+                                    width="30" height="30" viewBox="0 0 24 24" stroke-width="1" stroke="#00b341" fill="none"
+                                    stroke-linecap="round" stroke-linejoin="round" style=margin-top: -35px;">
+                                    <path stroke="none" d="M0 0h24v24H0z" fill="    none" />
                                     <path d="M15 8h.01" />
                                     <path d="M12.5 21h-6.5a3 3 0 0 1 -3 -3v-12a3 3 0 0 1 3 -3h12a3 3 0 0 1 3 3v6.5" />
                                     <path d="M3 16l5 -5c.928 -.893 2.072 -.893 3 0l4 4" />
@@ -50,6 +51,8 @@ class AddPublication extends HTMLElement {
                                     <path d="M16 19h6" />
                                     <path d="M19 16v6" />
                                 </svg>
+                                </label>
+                                <input type="file" accept="image/*" id="imageInput" style="display:none" />
                             </div>
                             <button id="btn-publicar">Publicar</button>
                             </form>
@@ -61,7 +64,7 @@ class AddPublication extends HTMLElement {
         const textarea = this.shadowRoot.querySelector('#textAreaPublicar');
         textarea.value = '';
         const imageInput = this.shadowRoot.querySelector('#imageInput');
-       
+
         imageInput.addEventListener('change', this.#handleImageUpload.bind(this));
         this.#addEventListeners();
     }
@@ -94,11 +97,11 @@ class AddPublication extends HTMLElement {
         const modal = this.shadowRoot.querySelector("#modal-publicacion");
         modal.classList.remove("modal-open");
     }
- 
+
     #handleImageUpload(event) {
         const fileInput = event.target;
         const file = fileInput.files[0];
-    
+
         if (file) {
             const imageUrl = URL.createObjectURL(file);
             console.log('Image URL:', imageUrl);
@@ -109,20 +112,20 @@ class AddPublication extends HTMLElement {
 
     async #handleAddPublication(event) {
         event.preventDefault();
-    
+
         const token = localStorage.getItem('jwtToken');
         const usuario = obtenerUsuarioDesdeToken(token);
         const usertag = usuario.userId;
-    
+
         const textarea = this.shadowRoot.querySelector('#textAreaPublicar');
         const texto = textarea.value.trim();
-         
+
         const imageInput = this.shadowRoot.querySelector('#imageInput');
         const img = this.#getImageUrl(imageInput);
 
         const fechaActual = new Date();
         const fechaCreacion = fechaActual.toISOString().split('T')[0];
-    
+
         try {
             const data = await addPublication(usertag, texto, img, fechaCreacion);
             console.log(data);
@@ -143,6 +146,25 @@ class AddPublication extends HTMLElement {
         const file = inputElement ? inputElement.files[0] : null;
         return file ? URL.createObjectURL(file) : null;
     }
+
+    async #consultaUsuario() {
+        const token = localStorage.getItem('jwtToken');
+        const usuario = obtenerUsuarioDesdeToken(token);
+        const usertag = usuario.userId;
+
+        const usuarioactualizado = await obtenerUsuario(usertag, token);
+        const username = usuarioactualizado.username;
+
+        const usertagElement = this.shadowRoot.getElementById('usertag');
+        const usernameElement = this.shadowRoot.getElementById('username');
+        const text = this.shadowRoot.getElementById('#textAreaPublicar');
+
+        usertagElement.textContent = usertag;
+        usernameElement.textContent = username;
+        text.textContent = `¿Qué estás pensando, ${username}?`;
+
+    }
 }
+
 
 customElements.define('addpublication-comp', AddPublication);

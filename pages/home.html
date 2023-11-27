@@ -7,6 +7,7 @@
   <link rel="stylesheet" href="../css/publicationHeader.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <script src="../services/loadPublicaciones.js" defer></script>
   <script type="module" src="../components/publicar/publicar.js"></script>
   <script type="module" src="../components/publicacion/publicacion.js"></script>
   <script type="module" src="../components/publicacion/publicationComment.js"></script>
@@ -19,7 +20,12 @@
 <body>
 
   <publicar-comp></publicar-comp>
-  <user-publication></user-publication>
+
+  <div id="contenedor-publicaciones"></div>
+
+  <button onclick=recuperarUltimaPublicacion()>Cargar otra</button>
+
+  <!-- <user-publication></user-publication> -->
 
  
   <!-- 

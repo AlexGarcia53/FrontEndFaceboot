@@ -1,4 +1,5 @@
 import { obtenerPublicacion } from '../../services/publicacionService.js';
+import { obtenerUsuarioDesdeToken } from '../../services/usuarioService.js';
 import '../publicacion/commentPublication.js'
 import '../publicacion/publicationComment.js'
 import '../publicacion/publicationContent.js'
@@ -19,10 +20,15 @@ class Publication extends HTMLElement {
     }
 
     #render(shadow, publicacion, comentarios){
+        const token = localStorage.getItem('jwtToken');
+        const usuario = obtenerUsuarioDesdeToken(token);
+        const creador= usuario.userId===publicacion.usertag;
         shadow.innerHTML = `
+        <br>
             <div class="publicacion-contenedor">
-                <publication-header usertag="${publicacion.usuarioID}" fechaCreacion="${publicacion.fechaCreacion}" creador="${true}"></publication-header>
-                <publication-content texto="${publicacion.texto}" imagen="${publicacion.img}"></publication-content>
+                <publication-header usertag="${publicacion.usertag}" fechaCreacion="${publicacion.fechaCreacion}" creador="${creador}"></publication-header>
+                <publication-content texto="${publicacion.texto===undefined || publicacion.texto=== null ? "" : publicacion.texto}" 
+                imagen="${publicacion.img===undefined || publicacion.img===null ? "" : publicacion.img}"></publication-content>
                 <div class="comentarios-publicacion">
                     <hr>
                     ${comentarios}
@@ -49,7 +55,8 @@ class Publication extends HTMLElement {
                     const comentarios= publicacion.comentarios;
                     let comentariosHTML= '';
                     comentarios.forEach(comentario => {
-                        comentariosHTML+=`<publication-comment usertag="${comentario.usuarioID}" texto="${comentario.texto}" imagen="${comentario.img}"></publication-comment>`
+                        comentariosHTML+=`<publication-comment usertag="${comentario.usertag}" texto="${comentario.texto===undefined || comentario.texto===null ? "" : comentario.texto}" 
+                        imagen="${comentario.img===undefined || comentario.img===null ? "" : comentario.img}"></publication-comment>`
                     });
                     
                     this.#render(shadow, publicacion, comentariosHTML);

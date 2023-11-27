@@ -14,9 +14,9 @@ class PublicationContent extends HTMLElement {
     }
 
     #render(shadow, texto, imagen){
-        if(texto && imagen){
+        if((texto!==undefined && texto!==null && texto.trim()!=='') && 
+        (imagen!==undefined && imagen!==null && imagen.trim()!=='')){
             shadow.innerHTML = `
-            
                 <div class="texto-publicacion">
                     <p>${texto}</p>
                 </div>
@@ -26,13 +26,15 @@ class PublicationContent extends HTMLElement {
                     <hr>
                 </div>
             `;
-        }else if(texto && !imagen){
+        }else if((texto!==undefined && texto!==null && texto.trim()!=='') &&
+        (imagen===undefined || imagen===null || imagen.trim()==='')){
             shadow.innerHTML= `
                 <div class="texto-publicacion">
                     <p>${texto}</p>
                 </div>
             `;
-        }else if(!texto && imagen){
+        }else if((texto===undefined || texto===null || texto.trim()==='') &&
+        (imagen!==undefined && imagen!==null && imagen.trim()!=='')){
             shadow.innerHTML= `
                 <div class="imagen-publicacion">
                     <hr>

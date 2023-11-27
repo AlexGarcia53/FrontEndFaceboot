@@ -9,13 +9,13 @@ class PublicationHeader extends HTMLElement {
 
         const usertag= this.getAttribute('usertag');
         const fechaCreacion= this.getAttribute('fechaCreacion');
-        const creador= this.getAttribute('creador');
+        const creador= this.getAttribute('creador') === 'true';
         this.#render(shadow, usertag, fechaCreacion, creador);
         this.#agregaEstilo(shadow);
     }
 
     #render(shadow, usertag, fechaCreacion, creador){
-        if(creador){
+        if(creador===true){
             shadow.innerHTML = `
                 <div class="perfil-usuario">
                     <img src="../imgs/user.png" id="user">

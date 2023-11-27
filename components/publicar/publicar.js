@@ -19,7 +19,7 @@ class Publicar extends HTMLElement {
     shadow.innerHTML = `
     <div class="publicar-contenedor">
     <div class="perfil-usuario">
-    <img src="images/fotodiscord.PNG">
+    <img src="../imgs/user.png" id="user">
     <div>
         <p id="usertag">ea</p>
         <small id="username">aquí andamos</small>

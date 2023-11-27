@@ -13,12 +13,14 @@ class PublicationComment extends HTMLElement {
         const usertag= this.getAttribute('usertag');
         const texto= this.getAttribute('texto');
         const imagen= this.getAttribute('imagen');
+        console.log(texto, imagen);
         this.#render(shadow, usertag, texto, imagen);
         this.#agregaEstilo(shadow);
     }
 
     #render(shadow, usertag, texto, imagen){
-        if(texto && imagen){
+        if((texto.trim()!=='') && 
+        (imagen.trim()!=='')){
             shadow.innerHTML = `
                 <div class="comentario">
                     <img src="../imgs/user.png" id="user">
@@ -33,7 +35,8 @@ class PublicationComment extends HTMLElement {
                     </div>
                 </div>
             `;
-        }else if(texto && !imagen){
+        }else if((texto.trim()!=='') &&
+        (imagen.trim()==='')){
             shadow.innerHTML= `
                 <div class="comentario">
                     <img src="../imgs/user.png" id="user">
@@ -45,7 +48,8 @@ class PublicationComment extends HTMLElement {
                     </div>
                 </div>
             `;
-        }else if(!texto && imagen){
+        }else if((texto.trim()==='') &&
+        (imagen.trim()!=='')){
             shadow.innerHTML= `
                 <div class="comentario">
                     <img src="../imgs/user.png" id="user">

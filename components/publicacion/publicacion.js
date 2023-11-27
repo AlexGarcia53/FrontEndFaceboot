@@ -14,8 +14,10 @@ class Publication extends HTMLElement {
     connectedCallback(){
         const shadow = this.attachShadow({ mode: 'open' });
 
-        this.#recuperarPublicacion(shadow);
-        // this.#render(shadow);
+        var publication= JSON.parse(this.getAttribute('publication'));
+        console.log(publication);
+        const comentarios= this.#organizarComentarios(shadow, publication);
+        this.#render(shadow, publication, comentarios);
         this.#agregaEstilo(shadow);
     }
 
@@ -44,6 +46,21 @@ class Publication extends HTMLElement {
         link.setAttribute('rel', 'stylesheet');
         link.setAttribute('href', '../css/publicationHeader.css');
         shadow.appendChild(link);
+    }
+
+    #organizarComentarios(shadow, publicacion){
+        if (publicacion.hasOwnProperty('comentarios') && Array.isArray(publicacion.comentarios)) {
+            const comentarios = publicacion.comentarios;
+            let comentariosHTML = '';
+            comentarios.forEach(comentario => {
+                comentariosHTML += `<publication-comment usertag="${comentario.usertag}" texto="${comentario.texto === undefined || comentario.texto === null ? "" : comentario.texto}" 
+                    imagen="${comentario.img === undefined || comentario.img === null ? "" : comentario.img}"></publication-comment>`
+            });
+            this.#agregaEstilo(shadow);
+            return comentariosHTML;
+        }else{
+            return "";
+        }
     }
 
     async #recuperarPublicacion(shadow){

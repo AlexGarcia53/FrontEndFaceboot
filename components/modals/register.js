@@ -24,13 +24,13 @@ export class Register extends HTMLElement {
                     <div class="line"></div> 
                     <form action="" id="my-form-register">
                         <div>
-                            <input name="newUsertag" type="text" id="new-usertag" placeholder="Usertag">
+                            <input name="newUsertag" type="text" id="new-usertag" maxlength="25" placeholder="Usertag">
                         </div>
                         <div>
-                            <input name="newUsername" type="text" id="new-username" placeholder="Nombre">
+                            <input name="newUsername" type="text" id="new-username" maxlength="25" placeholder="Nombre">
                         </div>
                         <div>
-                            <input name="newPassword" type="password" id="new-password" placeholder="Contraseña nueva">
+                            <input name="newPassword" type="password" id="new-password" maxlength="20" placeholder="Contraseña nueva">
                         </div>
                         <div>
                         <label for="gender">Sexo:</label>

@@ -1,7 +1,7 @@
 import { obtenerUsuarioDesdeToken } from "../../services/usuarioService.js";
-import { addPublication } from "../../services/publicacionService.js";
+import { addComment } from "../../services/comentarioService.js";
 
-class AddPublication extends HTMLElement {
+class AddComment extends HTMLElement {
     constructor() {
         super();
     }
@@ -18,7 +18,7 @@ class AddPublication extends HTMLElement {
                 <div class="modal-content">
                     <div id="modal-publicar">
                         <div class="header-modal-publicar">
-                            <p>Crear publicación</p>
+                            <p>Comenta esta publicación</p>
                             <svg id="close-modal" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
                                 width="44" height="44" viewBox="0 0 24 24" stroke-width="" stroke="#ff2825" fill="none"
                                 stroke-linecap="round" stroke-linejoin="round" style="margin-right: 10px;">
@@ -29,7 +29,7 @@ class AddPublication extends HTMLElement {
                         </div>
                         <form action="" id="my-form-add">
                         <div class="body-modal-publicar">
-                            <textarea id="textAreaPublicar" class="textAreaPublicar" placeholder="Escribe lo que esta pensando aquí...">
+                            <textarea id="textAreaPublicar" class="textAreaPublicar" placeholder="Escribe tu comentario aquí...">
                             </textarea>
                         </div>
 
@@ -38,7 +38,7 @@ class AddPublication extends HTMLElement {
                             
                                 
                                 <label for="imageInput" class="custom-file-input" margin-bottom: -15px;">
-                                <p>Añadir a tu publicación</p>
+                                <p>Añadir a tu comentario</p>
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-photo-plus"
                                     width="30" height="30" viewBox="0 0 24 24" stroke-width="1" stroke="#00b341" fill="none"
                                     stroke-linecap="round" stroke-linejoin="round" style=margin-top: -35px;">
@@ -126,7 +126,7 @@ class AddPublication extends HTMLElement {
         const fechaCreacion = fechaActual.toISOString().split('T')[0];
 
         try {
-            const data = await addPublication(usertag, texto, img, fechaCreacion);
+            const data = await addComment(usertag, texto, img, fechaCreacion);
             console.log(data);
             if (data) {
                 textarea.value = '';
@@ -149,4 +149,4 @@ class AddPublication extends HTMLElement {
 }
 
 
-customElements.define('addpublication-comp', AddPublication);
+customElements.define('addcomment-comp', AddComment);

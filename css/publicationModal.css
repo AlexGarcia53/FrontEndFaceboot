@@ -12,9 +12,31 @@
     display: flex;
 }
 
+.custom-file-input {
+    display: flex;
+    cursor: pointer;
+    user-select: none;
+    justify-content: center; 
+    align-items: center; 
+    margin: 10px auto; 
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    width: 70%;
+}
+
+.icon-tabler-photo-plus {
+    margin-left: 25px;
+}
+
+.custom-file-input:hover {
+
+    background-color: #88c57b;
+    color:#fff
+}
+
 .modal-content {
     background-color: #fff;
-    width: 347px; 
+    width: 420px; 
     height: 290px;
     margin: 10% auto;
     overflow: visible; 
@@ -30,7 +52,7 @@
 #modal-publicar {
     margin: auto;
     height: 350px;
-    width: 400px;
+    width: 420px;
     overflow: hidden;
     outline: none;
     border: 0;
@@ -47,14 +69,13 @@
     text-align: center;
     user-select: none;
     margin: auto;
-    margin-right: auto;
-
+    font-weight: bold;
+    
 }
 
 .header-modal-publicar svg {
     cursor: pointer;
     border-radius: 50%;
-
 
 }
 
@@ -70,7 +91,7 @@
 
 .body-modal-publicar textarea {
     height: 100%;
-    width: 100%;
+    width: 90%;
     padding: 30px;
     resize: none;
     outline: none;
@@ -106,15 +127,23 @@
 #btn-publicar {
     display: flex;
     cursor: pointer;
-    height: 30px;
     user-select: none;
-    margin: 10px 15%;
+    justify-content: center; 
+    align-items: center; 
+    margin: 10px auto; 
+    background-color: #fff;
     border: 1px solid #ccc;
     border-radius: 15px;
+    width: 70%;
+    padding: 2%;
+    font-size: 16px; 
+
+
 }
 
-#btn-publicar p {
-    margin: 0;
+#btn-publicar:hover {
+    background-color: rgb(75, 128, 199);
+    color:#fff
 }
 
 .modal-anadir-img svg {
@@ -127,17 +156,3 @@
     background-color: rgba(0, 0, 0, .55);
 }
 
-#btn-publicar {
-    display: flex;
-    align-items: center;
-    justify-content: center; 
-    height: 30px;
-    user-select: none;
-    margin: -10px auto;
-    border: 1px solid #ccc;
-    border-radius: 15px;
-    background-color: rgba(24, 119, 242, 1); 
-    width: 25%;
-    color: white !important;;
-    font-weight: bold;
-}

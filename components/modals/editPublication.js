@@ -1,7 +1,7 @@
 import { obtenerUsuarioDesdeToken } from "../../services/usuarioService.js";
-import { addPublication } from "../../services/publicacionService.js";
+import { editPublication } from "../../services/publicacionService.js";
 
-class AddPublication extends HTMLElement {
+class EditPublication extends HTMLElement {
     constructor() {
         super();
     }
@@ -18,7 +18,7 @@ class AddPublication extends HTMLElement {
                 <div class="modal-content">
                     <div id="modal-publicar">
                         <div class="header-modal-publicar">
-                            <p>Crear publicación</p>
+                            <p>Edita tu publicación</p>
                             <svg id="close-modal" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-circle-x"
                                 width="44" height="44" viewBox="0 0 24 24" stroke-width="" stroke="#ff2825" fill="none"
                                 stroke-linecap="round" stroke-linejoin="round" style="margin-right: 10px;">
@@ -29,7 +29,7 @@ class AddPublication extends HTMLElement {
                         </div>
                         <form action="" id="my-form-add">
                         <div class="body-modal-publicar">
-                            <textarea id="textAreaPublicar" class="textAreaPublicar" placeholder="Escribe lo que esta pensando aquí...">
+                            <textarea id="textAreaPublicar" class="textAreaPublicar" placeholder="Estas editando tu publicación...">
                             </textarea>
                         </div>
 
@@ -59,9 +59,8 @@ class AddPublication extends HTMLElement {
                     </div>
                 </div>
             </div>
-        `;
-        const textarea = this.shadowRoot.querySelector('#textAreaPublicar');
-        textarea.value = '';
+        `;   
+      
         const imageInput = this.shadowRoot.querySelector('#imageInput');
 
         imageInput.addEventListener('change', this.#handleImageUpload.bind(this));
@@ -126,14 +125,14 @@ class AddPublication extends HTMLElement {
         const fechaCreacion = fechaActual.toISOString().split('T')[0];
 
         try {
-            const data = await addPublication(usertag, texto, img, fechaCreacion);
+            const data = await editPublication(usertag, texto, img, fechaCreacion);
             console.log(data);
             if (data) {
                 textarea.value = '';
                 if (imageInput) {
                     imageInput.value = '';
                 }
-                alert('Registro exitoso');
+                alert('Se editó tu publicación');
                 this.#closeAddModal();
             }
         } catch (error) {
@@ -149,4 +148,4 @@ class AddPublication extends HTMLElement {
 }
 
 
-customElements.define('addpublication-comp', AddPublication);
+customElements.define('editpublication-comp', EditPublication);

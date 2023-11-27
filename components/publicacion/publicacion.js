@@ -49,12 +49,15 @@ class Publication extends HTMLElement {
     }
 
     #organizarComentarios(shadow, publicacion){
+        const token = localStorage.getItem('jwtToken');
+        const usuario = obtenerUsuarioDesdeToken(token);
         if (publicacion.hasOwnProperty('comentarios') && Array.isArray(publicacion.comentarios)) {
             const comentarios = publicacion.comentarios;
             let comentariosHTML = '';
             comentarios.forEach(comentario => {
+                const creador= usuario.userId===comentario.usertag;
                 comentariosHTML += `<publication-comment usertag="${comentario.usertag}" texto="${comentario.texto === undefined || comentario.texto === null ? "" : comentario.texto}" 
-                    imagen="${comentario.img === undefined || comentario.img === null ? "" : comentario.img}"></publication-comment>`
+                    imagen="${comentario.img === undefined || comentario.img === null ? "" : comentario.img}" creador="${creador}"></publication-comment>`
             });
             this.#agregaEstilo(shadow);
             return comentariosHTML;

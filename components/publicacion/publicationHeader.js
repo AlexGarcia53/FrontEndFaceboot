@@ -23,7 +23,13 @@ class PublicationHeader extends HTMLElement {
                         <p id="usertag">${usertag}</p>
                         <small id="username">${fechaCreacion}</small>
                     </div>
+                    <div class="options_dropdown">
                     <img src="../imgs/option.png" id="options">
+                    <div class="options_dropdown_content">
+                        <a href="">Editar</a>
+                        <a href="">Eliminar</a>
+                    </div>
+                </div>
                 </div>
             `;
         }else{

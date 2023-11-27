@@ -42,10 +42,63 @@
     font-size: 12px;
 }
 
-#options {
+.options_dropdown {
     margin-left: auto;
+    display: inline-block;
+}
+
+.options_dropdown_comentario {
+    margin-left: 8px;
+    display: inline-block;
+}
+
+.options_dropdown_content {
+    display: none;
+    position: absolute;
+    background-color: #ffffff;
+    border-radius: 10%;
+    min-width: 100px;
+    box-shadow: 2px 2px 5px black;
+}
+
+.options_dropdown_content a {
+    display: block;
+    color: #000000;
+    text-decoration: none;
+    padding: 5px 8px;
+    font-family: 'Roboto', sans-serif;
+    font-weight: bold;
+    color:#3d3d3d;
+    font-size: 14px;
+}
+
+.options_dropdown_content a:hover{
+    border-radius: 10%;
+    background-color: #eeeeee;
+}
+
+.options_dropdown:hover .options_dropdown_content {
+    display: block;
+}
+
+.options_dropdown_comentario:hover .options_dropdown_content {
+    display: block;
+}
+
+#options {
     width: 15px;
     height: 15px;
+    cursor: pointer;
+}
+
+#options_comentario {
+    width: 20px;
+    height: 20px;
+    margin-top: auto;
+    display: flex;
+    cursor: pointer;
+    background-color: #f0efef;
+    opacity: 25%;
 }
 
 .texto-publicacion {

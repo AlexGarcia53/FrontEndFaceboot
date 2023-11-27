@@ -3,13 +3,23 @@
 
 <head>
   <meta charset="UTF-8">
-
+  <link rel="stylesheet" href="../css/publicar.css">
+  <link rel="stylesheet" href="../css/publicationHeader.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
   <link rel="stylesheet" href="../css/header.css">
   <script type="module" src="../components/modals/update.js"></script>
   <script type="module" src="../components/header/header.js"></script> 
+
+  <script src="../services/loadPublicaciones.js" defer></script>
+
   <script type="module" src="../components/publicar/publicar.js"></script>
+  <script type="module" src="../components/publicacion/publicacion.js"></script>
+  <script type="module" src="../components/publicacion/publicationComment.js"></script>
+  <script type="module" src="../components/publicacion/publicationContent.js"></script>
+  <script type="module" src="../components/publicacion/publicationHeader.js"></script>
+  <script type="module" src="../components/publicacion/commentPublication.js"></script>
   <title>Faceboot</title>
 </head>
 
@@ -22,6 +32,12 @@
 
   <publicar-comp></publicar-comp>
 
+
+  <div id="contenedor-publicaciones"></div>
+
+  <button onclick=recuperarUltimaPublicacion()>Cargar otra</button>
+
+  <!-- <user-publication></user-publication> -->
 
  
   <!-- 

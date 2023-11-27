@@ -17,20 +17,21 @@ class Publicar extends HTMLElement {
 
   #render(shadow) {
     shadow.innerHTML = `
-      <div class="perfil-usuario">
-      <img src="images/fotodiscord.PNG">
-      <div>
-          <p id="usertag">ea</p>
-          <small id="username">aquí andamos</small>
-      </div>
+    <div class="publicar-contenedor">
+    <div class="perfil-usuario">
+    <img src="../imgs/user.png" id="user">
+    <div>
+        <p id="usertag">ea</p>
+        <small id="username">aquí andamos</small>
+    </div>
 
-      </div>
+    </div>
 
-  <div class="publicar-input-contenedor">
-      <div id="publicar" class="publicar-input">
-          <span id= "text-publicar" >¿Qué estás pensando, Yocupicio?</span>
-      </div>
-  </div>
+<div class="publicar-input-contenedor">
+    <div id="publicar" class="publicar-input">
+        <span id= "text-publicar" >¿Qué estás pensando, Yocupicio?</span>
+    </div>
+</div>
 
 </div>`
       ;
@@ -39,7 +40,7 @@ class Publicar extends HTMLElement {
   #agregaEstilo(shadow) {
     let link = document.createElement('link');
     link.setAttribute('rel', 'stylesheet');
-    link.setAttribute("href", "../css/publicar.css");
+    link.setAttribute('href', '../css/publicar.css');
     shadow.appendChild(link);
   }
 

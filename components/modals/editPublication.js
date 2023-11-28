@@ -7,12 +7,14 @@ class EditPublication extends HTMLElement {
     }
 
     connectedCallback() {
-        this.attachShadow({ mode: 'open' });
-        this.#render();
+        this.attachShadow({ mode: 'open' });   
+        const texto = this.getAttribute('texto');
+        console.log(texto);  
+        this.#render(texto);
         this.#agregaEstilo();
     }
 
-    #render() {
+    #render(texto) {
         this.shadowRoot.innerHTML = `
             <div id="modal-publicacion" class="modal">
                 <div class="modal-content">
@@ -53,18 +55,20 @@ class EditPublication extends HTMLElement {
                                 </label>
                                 <input type="file" accept="image/*" id="imageInput" style="display:none" />
                           
-                            <button id="btn-publicar">Publicar</button>
+                            <button id="btn-publicar">Editar publicación</button>
                             </form>
                         </div>
                     </div>
                 </div>
             </div>
         `;   
-      
+        const textarea = this.shadowRoot.querySelector('#textAreaPublicar');
+        textarea.value = texto;      
         const imageInput = this.shadowRoot.querySelector('#imageInput');
 
         imageInput.addEventListener('change', this.#handleImageUpload.bind(this));
-        this.#addEventListeners();
+        const publicacionId = this.getAttribute('_id');
+        this.#addEventListeners(publicacionId);
     }
 
     #agregaEstilo() {
@@ -74,10 +78,10 @@ class EditPublication extends HTMLElement {
         this.shadowRoot.appendChild(link);
     }
 
-    #addEventListeners() {
+    #addEventListeners(publicacionId) {
         const closeModalButton = this.shadowRoot.querySelector('#close-modal');
         const formUpdate = this.shadowRoot.querySelector('#my-form-add');
-
+       console.log("aqui ando:"+ publicacionId)
         if (closeModalButton) {
             closeModalButton.addEventListener('click', this.#closeAddModal.bind(this));
         } else {
@@ -85,7 +89,7 @@ class EditPublication extends HTMLElement {
         }
 
         if (formUpdate) {
-            formUpdate.addEventListener('submit', this.#handleAddPublication.bind(this));
+            formUpdate.addEventListener('submit', (event) => this.#handleEditPublication(event, publicacionId));
         } else {
             console.error("Element with ID 'form-update' not found.");
         }
@@ -108,9 +112,8 @@ class EditPublication extends HTMLElement {
         }
     }
 
-    async #handleAddPublication(event) {
+    async #handleEditPublication(event, publicacionId) {
         event.preventDefault();
-
         const token = localStorage.getItem('jwtToken');
         const usuario = obtenerUsuarioDesdeToken(token);
         const usertag = usuario.userId;
@@ -121,17 +124,11 @@ class EditPublication extends HTMLElement {
         const imageInput = this.shadowRoot.querySelector('#imageInput');
         const img = this.#getImageUrl(imageInput);
 
-        const fechaActual = new Date();
-        const fechaCreacion = fechaActual.toISOString().split('T')[0];
-
         try {
-            const data = await editPublication(usertag, texto, img, fechaCreacion);
+            const data = await editPublication(usertag, texto, img, publicacionId);
             console.log(data);
             if (data) {
-                textarea.value = '';
-                if (imageInput) {
-                    imageInput.value = '';
-                }
+
                 alert('Se editó tu publicación');
                 this.#closeAddModal();
             }

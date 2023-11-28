@@ -28,7 +28,7 @@ class Publication extends HTMLElement {
         shadow.innerHTML = `
         <br>
             <div class="publicacion-contenedor">
-                <publication-header usertag="${publicacion.usertag}" fechaCreacion="${publicacion.fechaCreacion}" creador="${creador}"></publication-header>
+                <publication-header usertag="${publicacion.usertag}" fechaCreacion="${publicacion.fechaCreacion}" creador="${creador}" _id="${publicacion._id}" texto="${publicacion.texto}" ></publication-header>
                 <publication-content texto="${publicacion.texto===undefined || publicacion.texto=== null ? "" : publicacion.texto}" 
                 imagen="${publicacion.img===undefined || publicacion.img===null ? "" : publicacion.img}"></publication-content>
                 <div class="comentarios-publicacion">

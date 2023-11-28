@@ -75,16 +75,6 @@ class Login extends HTMLElement {
     }
   }
 
-
-//   #handleRegister(e) {
-//     e.preventDefault();
-
-//     console.log('Clic en el botón de registro');
-//     const registerComponent = document.querySelector('register-comp');
-//     console.log(registerComponent);
-//     registerComponent.open();
-// }
-
 }
 
 customElements.define('login-comp', Login);

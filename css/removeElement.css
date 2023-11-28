@@ -1,12 +1,13 @@
 
 .modal {
-    
+ 
     display: none;
     position: fixed;
     top: 50%;
     left: 50%;
     transform: translate(-50%, -50%);
 }
+
 
 .modal-open {
     display: flex;
@@ -24,15 +25,6 @@
     width: 70%;
 }
 
-.icon-tabler-photo-plus {
-    margin-left: 25px;
-}
-
-.custom-file-input:hover {
-
-    background-color: #88c57b;
-    color:#fff
-}
 
 .modal-content {
     background-color: #fff;
@@ -40,7 +32,7 @@
     height: auto;
     margin: 10% auto;
     overflow: visible; 
-    padding: 40px;
+    padding: 20px;
     box-shadow: 0px 0px 20px -7px;
     border-radius: 10px;
     position: relative;
@@ -49,37 +41,29 @@
     align-items: center;
 }
 
-#modal-publicar {
-    margin: auto;
-    height: auto;
-    width: 420px;
-    overflow: hidden;
-    outline: none;
-    border: 0;
-    border-radius: 12px;
-}
 
-.header-modal-publicar {
+.header-modal-remove {
     display: flex;
     justify-content: space-between;
-    border-bottom: 1px solid #ccc;
+    border: 2px solid #4e1111;
+    background-color: #c04545;
+    border-radius: 15px;
+    padding: 4px;
+    margin-bottom: 15px;
 }
 
-.header-modal-publicar p {
+.header-modal-remove span {
     text-align: center;
     user-select: none;
     margin: auto;
+    color: #fff;
     font-weight: bold;
+    padding: 10px;
+    
     
 }
 
-.header-modal-publicar svg {
-    cursor: pointer;
-    border-radius: 50%;
-
-}
-
-.body-modal-publicar {
+.body-modal-remove {
     display: flex;
     align-items: center;
     justify-content: center;
@@ -89,82 +73,51 @@
     box-sizing: border-box;
 }
 
-.body-modal-publicar textarea {
-    height: 100%;
-    width: 90%;
-    padding: 30px;
-    resize: none;
-    outline: none;
-    border: 0;
-    background: transparent;
-    box-sizing: border-box;
-}
 
-.footer-modal-publicar {
-    border-top: 1px solid #ccc;
-}
-
-.modal-anadir-img {
+#btn-cancelar {
     display: flex;
     cursor: pointer;
     user-select: none;
     justify-content: center; 
     align-items: center; 
-    margin: 10px auto; 
-    border: 1px solid #ccc;
-    border-radius: 15px;
-    width: 70%;
-}
-
-.modal-anadir-img p {
-    margin-left: 10px;
-    padding-right: 30x 45px 30px 0px;
-    flex: 1; 
-    color: black;
-    align-items: center;
-}
-
-#btn-publicar {
-    display: flex;
-    cursor: pointer;
-    user-select: none;
-    justify-content: center; 
-    align-items: center; 
-    margin: 10px auto; 
+    margin: 5px auto; 
     background-color: #fff;
     border: 1px solid #ccc;
     border-radius: 15px;
     width: 70%;
     padding: 2%;
     font-size: 16px; 
-
+    font-weight: bold;
 
 }
 
-#btn-publicar:hover {
-    background-color: rgb(75, 128, 199);
-    color:#fff
-}
-
-.textAreaPublicar {
-    width: 100%; 
-    height: 100px; 
-    font-size: 16px;
+ #btn-confirmar {
+    display: flex;
+    cursor: pointer;
+    user-select: none;
+    justify-content: center; 
+    align-items: center; 
+    margin: 0px auto; 
+    background-color: #fff;
     border: 1px solid #ccc;
-    border-radius: 5px;
-    margin-bottom: 10px;
-    resize: vertical; 
-  }
+    border-radius: 15px;
+    width: 70%;
+    padding: 2%;
+    font-size: 16px; 
+    font-weight: bold;
 
-.modal-anadir-img svg {
-    margin-right: 45px; 
-    padding: 10px;
-    transform: translateY(-8px); 
-}
-
-#modal-publicar::backdrop {
-    background-color: rgba(0, 0, 0, .55);
 }
 
 
+#btn-cancelar:hover {
+    background-color: rgb(104, 155, 221);
+    color:#fff;
+    border: 2px solid rgb(47, 121, 218);
+}
+
+#btn-confirmar:hover {
+    background-color: rgb(221, 104, 104);
+    color:#fff;
+    border: 2px solid rgb(212, 46, 46);
+}
 

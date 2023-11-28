@@ -38,7 +38,7 @@ class EditComment extends HTMLElement {
                             
                                 
                                 <label for="imageInput" class="custom-file-input" margin-bottom: -15px;">
-                                <p>Añadir a tu publicación</p>
+                                <p>Añadir a tu comentario</p>
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-photo-plus"
                                     width="30" height="30" viewBox="0 0 24 24" stroke-width="1" stroke="#00b341" fill="none"
                                     stroke-linecap="round" stroke-linejoin="round" style=margin-top: -35px;">
@@ -53,7 +53,7 @@ class EditComment extends HTMLElement {
                                 </label>
                                 <input type="file" accept="image/*" id="imageInput" style="display:none" />
                           
-                            <button id="btn-publicar">Publicar</button>
+                            <button id="btn-publicar">Comentar</button>
                             </form>
                         </div>
                     </div>
@@ -85,7 +85,7 @@ class EditComment extends HTMLElement {
         }
 
         if (formUpdate) {
-            formUpdate.addEventListener('submit', this.#handleAddPublication.bind(this));
+            formUpdate.addEventListener('submit', this.#handleEditComment.bind(this));
         } else {
             console.error("Element with ID 'form-update' not found.");
         }
@@ -108,7 +108,7 @@ class EditComment extends HTMLElement {
         }
     }
 
-    async #handleAddPublication(event) {
+    async #handleEditComment(event) {
         event.preventDefault();
 
         const token = localStorage.getItem('jwtToken');

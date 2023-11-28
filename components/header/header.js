@@ -43,7 +43,7 @@ document.addEventListener("DOMContentLoaded", function () {
                   <path d="M12 9v6" />
               </svg>
   
-              <img src="/imgs/fotodiscord.PNG" class="icono-usuario", id="icono">
+              <img src="../imgs/user.png" class="icono-usuario", id="icono">
               
               
           </div>

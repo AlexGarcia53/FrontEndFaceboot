@@ -69,7 +69,7 @@ class Publicar extends HTMLElement {
 
   #addEventListeners(shadow) {
     const butonPublicar = shadow.querySelector("#publicar");
-    console.log(butonPublicar);
+
     butonPublicar.addEventListener("click", () => this.#openPublicationModal(shadow));
   }
 

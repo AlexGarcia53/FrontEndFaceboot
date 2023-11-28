@@ -1,3 +1,6 @@
+import '../modals/editComment.js';
+import '../modals/removeComment.js';
+
 class PublicationComment extends HTMLElement {
     
     constructor(usertag, texto, imagen){
@@ -14,9 +17,10 @@ class PublicationComment extends HTMLElement {
         const texto= this.getAttribute('texto');
         const imagen= this.getAttribute('imagen');
         const creador= this.getAttribute('creador') === 'true';
-        console.log(texto, imagen);
+
         this.#render(shadow, usertag, texto, imagen, creador);
         this.#agregaEstilo(shadow);
+        this.#addEventListeners(shadow)
     }
 
     #render(shadow, usertag, texto, imagen, creador){
@@ -38,11 +42,13 @@ class PublicationComment extends HTMLElement {
                         <div class="options_dropdown_comentario">
                             <img src="../imgs/more.png" id="options_comentario">
                             <div class="options_dropdown_content">
-                                <a href="">Editar</a>
-                                <a href="">Eliminar</a>
+                            <a href="#" id="editar">Editar</a>
+                            <a href="#" id="eliminar">Eliminar</a>
                             </div>
                         </div>
                     </div>
+                    <editcomment-comp></editcomentario-comp>
+                    <removecomment-comp></removecomment-comp>
                 `;
             }else{
                 shadow.innerHTML = `
@@ -75,11 +81,13 @@ class PublicationComment extends HTMLElement {
                         <div class="options_dropdown_comentario">
                             <img src="../imgs/more.png" id="options_comentario">
                             <div class="options_dropdown_content">
-                                <a href="">Editar</a>
-                                <a href="">Eliminar</a>
+                            <a href="#" id="editar">Editar</a>
+                            <a href="#" id="eliminar">Eliminar</a>
                             </div>
                         </div>
                     </div>
+                    <editcomment-comp></editcomentario-comp>
+                    <removecomment-comp></removecomment-comp>
                 `;
             }else{
                 shadow.innerHTML= `
@@ -109,11 +117,13 @@ class PublicationComment extends HTMLElement {
                         <div class="options_dropdown_comentario">
                             <img src="../imgs/more.png" id="options_comentario">
                             <div class="options_dropdown_content">
-                                <a href="">Editar</a>
-                                <a href="">Eliminar</a>
+                            <a href="#" id="editar">Editar</a>
+                            <a href="#" id="eliminar">Eliminar</a>
                             </div>
                         </div>
                     </div>
+                    <editcomment-comp></editcomment-comp>
+                    <removecomment-comp></removecomment-comp>
                 `;
             }else{
                 shadow.innerHTML= `
@@ -136,6 +146,38 @@ class PublicationComment extends HTMLElement {
         link.setAttribute('rel', 'stylesheet');
         link.setAttribute('href', '../css/publicationHeader.css');
         shadow.appendChild(link);
+    }
+
+    #addEventListeners(shadow) {
+ 
+        const editarButton = shadow.querySelector("#editar");
+        editarButton.addEventListener("click", () => this.#openEditModal(shadow));
+        const eliminarButton = shadow.querySelector("#eliminar");
+        eliminarButton.addEventListener("click", () => this.#openRemoveModal(shadow));
+
+    }
+
+    #openRemoveModal(shadow) {
+        const removeComp = shadow.querySelector('removecomment-comp');
+        console.log(removeComp)
+        if (removeComp) {
+            const modal = removeComp.shadowRoot.querySelector("#modal-container");
+            console.log(modal);
+            if (modal) {
+                modal.style.display = 'block';
+            }
+        }
+    }
+
+    #openEditModal(shadow) {
+        const editComp  = shadow.querySelector('editcomment-comp');
+
+        if (editComp ) {
+            const modal = editComp.shadowRoot.querySelector("#modal-publicacion");
+            if (modal) {
+                modal.classList.add("modal-open");
+            }
+        }
     }
 }
 

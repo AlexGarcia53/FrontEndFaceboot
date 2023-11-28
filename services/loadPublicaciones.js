@@ -12,7 +12,7 @@ async function recuperarPublicaciones() {
         if(publicaciones){
             publicaciones.forEach(publicacion => {
                 var publicacionString= JSON.stringify(publicacion);
-                //console.log(publicacionString);
+                console.log(publicacionString);
                 contenedorPublicaciones.insertAdjacentHTML('beforeend', `<user-publication publication='${publicacionString}'></user-publication>`);
             });
         }else{

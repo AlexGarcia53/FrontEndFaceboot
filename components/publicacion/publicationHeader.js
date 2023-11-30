@@ -13,15 +13,16 @@ class PublicationHeader extends HTMLElement {
       const fechaCreacion = this.getAttribute('fechaCreacion');
       const publicacionId = this.getAttribute('_id');
       const texto = this.getAttribute('texto');
+      const img = this.getAttribute('img');
       const creador = this.getAttribute('creador') === 'true';
-      this.#render(shadow, usertag, fechaCreacion, creador, publicacionId, texto);
+      this.#render(shadow, usertag, fechaCreacion, creador, publicacionId, texto, img);
       this.#agregaEstilo(shadow);
       this.#addEventListeners(shadow)
       console.log(texto);
 
     }
     
-    #render(shadow, usertag, fechaCreacion, creador, publicacionId, texto) {
+    #render(shadow, usertag, fechaCreacion, creador, publicacionId, texto, img) {
       if (creador === true) {
         shadow.innerHTML = `
                 <div class="perfil-usuario">
@@ -39,7 +40,7 @@ class PublicationHeader extends HTMLElement {
                 </div>
                 </div>
           <removepublication-comp _id="${publicacionId}"></removepublication-comp>
-          <editpublication-comp _id="${publicacionId}" texto="${texto}"></editpublication-comp>
+          <editpublication-comp _id="${publicacionId}" texto="${texto}" img="${img}"></editpublication-comp>
         `;
       } else {
         shadow.innerHTML = `

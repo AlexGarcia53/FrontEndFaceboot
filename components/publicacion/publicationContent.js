@@ -22,7 +22,7 @@ class PublicationContent extends HTMLElement {
                 </div>
                 <div class="imagen-publicacion">
                     <hr>
-                    <img src="../imgs/facebook.webp" id="contenido">
+                    <img src="${imagen}" id="contenido">
                     <hr>
                 </div>
             `;
@@ -38,7 +38,7 @@ class PublicationContent extends HTMLElement {
             shadow.innerHTML= `
                 <div class="imagen-publicacion">
                     <hr>
-                    <img src="../imgs/facebook.webp" id="contenido">
+                    <img src="${imagen}" id="contenido">
                     <hr>
                 </div>
             `;

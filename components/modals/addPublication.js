@@ -1,5 +1,7 @@
 import { obtenerUsuarioDesdeToken } from "../../services/usuarioService.js";
 import { addPublication } from "../../services/publicacionService.js";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js";
+import { app } from "../../services/firebaseConfig.js";
 
 class AddPublication extends HTMLElement {
     constructor() {
@@ -38,7 +40,7 @@ class AddPublication extends HTMLElement {
                             
                                 
                                 <label for="imageInput" class="custom-file-input" margin-bottom: -15px;">
-                                <p>Añadir a tu publicación</p>
+                                <p id="textoArchivo" >Añadir a tu publicación</p>
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-photo-plus"
                                     width="30" height="30" viewBox="0 0 24 24" stroke-width="1" stroke="#00b341" fill="none"
                                     stroke-linecap="round" stroke-linejoin="round" style=margin-top: -35px;">
@@ -60,11 +62,20 @@ class AddPublication extends HTMLElement {
                 </div>
             </div>
         `;
+
+        const imageInput = this.shadowRoot.querySelector('#imageInput');
+        const textoArchivo = this.shadowRoot.querySelector('#textoArchivo');
+
+        imageInput.addEventListener('change', function () {
+            if (imageInput.files.length > 0) {
+                textoArchivo.innerText = 'Archivo seleccionado';
+            } else {
+                textoArchivo.innerText = 'Seleccionar archivo';
+            }
+        });
         const textarea = this.shadowRoot.querySelector('#textAreaPublicar');
         textarea.value = '';
-        const imageInput = this.shadowRoot.querySelector('#imageInput');
-
-        imageInput.addEventListener('change', this.#handleImageUpload.bind(this));
+        
         this.#addEventListeners();
     }
 
@@ -97,18 +108,6 @@ class AddPublication extends HTMLElement {
         modal.classList.remove("modal-open");
     }
 
-    #handleImageUpload(event) {
-        const fileInput = event.target;
-        const file = fileInput.files[0];
-
-        if (file) {
-            const imageUrl = URL.createObjectURL(file);
-            console.log('Image URL:', imageUrl);
-        } else {
-            console.log('No file selected');
-        }
-    }
-
     async #handleAddPublication(event) {
         event.preventDefault();
 
@@ -120,14 +119,15 @@ class AddPublication extends HTMLElement {
         const texto = textarea.value.trim();
 
         const imageInput = this.shadowRoot.querySelector('#imageInput');
-        const img = this.#getImageUrl(imageInput);
-
-        const fechaActual = new Date();
-        const fechaCreacion = fechaActual.toISOString().split('T')[0];
+        const fechaCreacion = this.#getDateFormat();
+        let img = "";
+        if (imageInput.files[0]) {
+            img = await this.#uploadToFirebase(usertag, fechaCreacion, imageInput.files[0]);
+        }
 
         try {
             const data = await addPublication(usertag, texto, img, fechaCreacion);
-            console.log(data);
+
             if (data) {
                 textarea.value = '';
                 if (imageInput) {
@@ -141,11 +141,42 @@ class AddPublication extends HTMLElement {
         }
     }
 
-    #getImageUrl(inputElement) {
-        const file = inputElement ? inputElement.files[0] : null;
-        return file ? URL.createObjectURL(file) : '';
+    #getDateFormat() {
+        const fechaActual = new Date();
+        const anio = fechaActual.getFullYear();
+        const mes = (fechaActual.getMonth() + 1).toString().padStart(2, '0');
+        const dia = fechaActual.getDate().toString().padStart(2, '0');
+        const horas = fechaActual.getHours().toString().padStart(2, '0');
+        const minutos = fechaActual.getMinutes().toString().padStart(2, '0');
+        const segundos = fechaActual.getSeconds().toString().padStart(2, '0');
+
+        const fechaCreacion = `${anio}-${mes}-${dia} ${horas}:${minutos}:${segundos}`;
+
+        return fechaCreacion;
     }
 
+    #uploadToFirebase(usertag, fechaCreacion, file) {
+        return new Promise((resolve, reject) => {
+            const imageUrl = URL.createObjectURL(file);
+            console.log('Image URL:', imageUrl);
+            const storage = getStorage(app);
+
+            const storageRef = ref(storage, 'imgs/' + usertag + " - " + fechaCreacion);
+            console.log(storageRef);
+            const uploadTask = uploadBytes(storageRef, file);
+
+            uploadTask.then((snapshot) => {
+                console.log('Imagen subida exitosamente:', snapshot);
+                getDownloadURL(snapshot.ref).then((downloadURL) => {
+                    console.log('URL de descarga:', downloadURL);
+                    resolve(downloadURL);
+                });
+            }).catch((error) => {
+                console.error('Error al subir la imagen:', error);
+                reject(error);
+            });
+        });
+    }
 }
 
 

@@ -72,7 +72,7 @@ export async function addPublication(usertag, texto, img, fechaCreacion) {
     }
 }
 
-export async function editPublication(usertag, texto, img, id) {
+export async function editPublication(usertag, texto, img, fechaCreacion, id) {
     const token = localStorage.getItem('jwtToken');
 
     if (!token) {
@@ -93,7 +93,7 @@ export async function editPublication(usertag, texto, img, id) {
                 usertag: usertag,
                 texto: texto,
                 img: img,
-            
+                fechaCreacion: fechaCreacion       
             })
         });
 
@@ -175,3 +175,4 @@ export async function deletePublication(id) {
         console.error('Error en la solicitud DELETE:', error.message);
     }
 }
+

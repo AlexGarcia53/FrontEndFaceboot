@@ -56,3 +56,5 @@ async function obtenerPublicacionesIndice(indice) {
         throw error;
     }
 }
+
+

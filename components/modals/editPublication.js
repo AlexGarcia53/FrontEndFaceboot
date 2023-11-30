@@ -1,20 +1,27 @@
 import { obtenerUsuarioDesdeToken } from "../../services/usuarioService.js";
 import { editPublication } from "../../services/publicacionService.js";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js";
+import { app } from "../../services/firebaseConfig.js";
 
 class EditPublication extends HTMLElement {
     constructor() {
         super();
+        this.img = null;
+        this.texto = '';
     }
 
     connectedCallback() {
-        this.attachShadow({ mode: 'open' });   
-        const texto = this.getAttribute('texto');
-        console.log(texto);  
-        this.#render(texto);
+        this.attachShadow({ mode: 'open' });
+        
+        this.texto = this.getAttribute('texto');
+        console.log("texto en callback:"+ this.texto)
+        this.img = this.getAttribute('img');
+        console.log(this.texto);
+        this.#render(this.texto);
         this.#agregaEstilo();
     }
 
-    #render(texto) {
+    #render() {
         this.shadowRoot.innerHTML = `
             <div id="modal-publicacion" class="modal">
                 <div class="modal-content">
@@ -61,12 +68,21 @@ class EditPublication extends HTMLElement {
                     </div>
                 </div>
             </div>
-        `;   
-        const textarea = this.shadowRoot.querySelector('#textAreaPublicar');
-        textarea.value = texto;      
-        const imageInput = this.shadowRoot.querySelector('#imageInput');
+        `;
 
-        imageInput.addEventListener('change', this.#handleImageUpload.bind(this));
+        const imageInput = this.shadowRoot.querySelector('#imageInput');
+        const textoArchivo = this.shadowRoot.querySelector('#textoArchivo');
+
+        imageInput.addEventListener('change', function () {
+            if (imageInput.files.length > 0) {
+                textoArchivo.innerText = 'Archivo seleccionado';
+            } else {
+                textoArchivo.innerText = 'Seleccionar archivo';
+            }
+        });
+        const textarea = this.shadowRoot.querySelector('#textAreaPublicar');
+        textarea.value = this.texto;
+
         const publicacionId = this.getAttribute('_id');
         this.#addEventListeners(publicacionId);
     }
@@ -81,18 +97,11 @@ class EditPublication extends HTMLElement {
     #addEventListeners(publicacionId) {
         const closeModalButton = this.shadowRoot.querySelector('#close-modal');
         const formUpdate = this.shadowRoot.querySelector('#my-form-add');
-       console.log("aqui ando:"+ publicacionId)
-        if (closeModalButton) {
-            closeModalButton.addEventListener('click', this.#closeAddModal.bind(this));
-        } else {
-            console.error("Element with ID  'close-modal' not found.");
-        }
+        console.log("aqui ando:" + publicacionId)
 
-        if (formUpdate) {
-            formUpdate.addEventListener('submit', (event) => this.#handleEditPublication(event, publicacionId));
-        } else {
-            console.error("Element with ID 'form-update' not found.");
-        }
+        closeModalButton.addEventListener('click', this.#closeAddModal.bind(this));
+        formUpdate.addEventListener('submit', (event) => this.#handleEditPublication(event, publicacionId));
+
     }
 
     #closeAddModal() {
@@ -100,32 +109,25 @@ class EditPublication extends HTMLElement {
         modal.classList.remove("modal-open");
     }
 
-    #handleImageUpload(event) {
-        const fileInput = event.target;
-        const file = fileInput.files[0];
-
-        if (file) {
-            const imageUrl = URL.createObjectURL(file);
-            console.log('Image URL:', imageUrl);
-        } else {
-            console.log('No file selected');
-        }
-    }
-
     async #handleEditPublication(event, publicacionId) {
         event.preventDefault();
+
         const token = localStorage.getItem('jwtToken');
         const usuario = obtenerUsuarioDesdeToken(token);
         const usertag = usuario.userId;
 
         const textarea = this.shadowRoot.querySelector('#textAreaPublicar');
-        const texto = textarea.value.trim();
+        this.texto = textarea.value.trim();
 
         const imageInput = this.shadowRoot.querySelector('#imageInput');
-        const img = this.#getImageUrl(imageInput);
+        const fechaCreacion = this.#getDateFormat();
+        let img = this.img;
+        if (imageInput.files[0]) {
+            img = await this.#uploadToFirebase(usertag, fechaCreacion, imageInput.files[0]);
+        }
 
         try {
-            const data = await editPublication(usertag, texto, img, publicacionId);
+            const data = await editPublication(usertag, this.texto, img, fechaCreacion, publicacionId);
             console.log(data);
             if (data) {
 
@@ -137,11 +139,42 @@ class EditPublication extends HTMLElement {
         }
     }
 
-    #getImageUrl(inputElement) {
-        const file = inputElement ? inputElement.files[0] : null;
-        return file ? URL.createObjectURL(file) : '';
+    #getDateFormat() {
+        const fechaActual = new Date();
+        const anio = fechaActual.getFullYear();
+        const mes = (fechaActual.getMonth() + 1).toString().padStart(2, '0');
+        const dia = fechaActual.getDate().toString().padStart(2, '0');
+        const horas = fechaActual.getHours().toString().padStart(2, '0');
+        const minutos = fechaActual.getMinutes().toString().padStart(2, '0');
+        const segundos = fechaActual.getSeconds().toString().padStart(2, '0');
+
+        const fechaCreacion = `${anio}-${mes}-${dia} ${horas}:${minutos}:${segundos}`;
+
+        return fechaCreacion;
     }
 
+    #uploadToFirebase(usertag, fechaCreacion, file) {
+        return new Promise((resolve, reject) => {
+            const imageUrl = URL.createObjectURL(file);
+            console.log('Image URL:', imageUrl);
+            const storage = getStorage(app);
+
+            const storageRef = ref(storage, 'imgs/' + usertag + " - " + fechaCreacion);
+            console.log(storageRef);
+            const uploadTask = uploadBytes(storageRef, file);
+
+            uploadTask.then((snapshot) => {
+                console.log('Imagen subida exitosamente:', snapshot);
+                getDownloadURL(snapshot.ref).then((downloadURL) => {
+                    console.log('URL de descarga:', downloadURL);
+                    resolve(downloadURL);
+                });
+            }).catch((error) => {
+                console.error('Error al subir la imagen:', error);
+                reject(error);
+            });
+        });
+    }
 }
 
 

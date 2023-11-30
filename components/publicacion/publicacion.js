@@ -1,5 +1,6 @@
 import { obtenerPublicacion } from '../../services/publicacionService.js';
 import { obtenerUsuarioDesdeToken } from '../../services/usuarioService.js';
+import { obtenerComentarioReciente } from '../../services/comentarioService.js';
 import '../publicacion/commentPublication.js'
 import '../publicacion/publicationComment.js'
 import '../publicacion/publicationContent.js'
@@ -18,6 +19,13 @@ class Publication extends HTMLElement {
         console.log(publication);
         const comentarios= this.#organizarComentarios(shadow, publication);
         this.#render(shadow, publication, comentarios);
+
+        window.addEventListener('agregarComentario', (event) => {
+            const { idPublicacion } = event.detail;
+            
+            this.#obtenerComentario(idPublicacion, publication);
+        });
+
         this.#agregaEstilo(shadow);
     }
 
@@ -28,15 +36,16 @@ class Publication extends HTMLElement {
         shadow.innerHTML = `
         <br>
             <div class="publicacion-contenedor">
-                <publication-header usertag="${publicacion.usertag}" fechaCreacion="${publicacion.fechaCreacion}" creador="${creador}" _id="${publicacion._id}" texto="${publicacion.texto}" ></publication-header>
+                <publication-header usertag="${publicacion.usertag}" fechaCreacion="${publicacion.fechaCreacion}" creador="${creador}" _id="${publicacion._id}" texto="${publicacion.texto}" img="${publicacion.img}"></publication-header>
                 <publication-content texto="${publicacion.texto===undefined || publicacion.texto=== null ? "" : publicacion.texto}" 
                 imagen="${publicacion.img===undefined || publicacion.img===null ? "" : publicacion.img}"></publication-content>
                 <div class="comentarios-publicacion">
                     <hr>
                     ${comentarios}
+                    <div class="nuevos"> </div>
                     <hr>
                 </div>
-                <comment-publication></comment-publication>
+                <comment-publication _id="${publicacion._id}"></comment-publication>
             </div>
         `; 
     }
@@ -50,21 +59,64 @@ class Publication extends HTMLElement {
 
     #organizarComentarios(shadow, publicacion){
         const token = localStorage.getItem('jwtToken');
+        const publicacionID = publicacion._id;
         const usuario = obtenerUsuarioDesdeToken(token);
         if (publicacion.hasOwnProperty('comentarios') && Array.isArray(publicacion.comentarios)) {
             const comentarios = publicacion.comentarios;
             let comentariosHTML = '';
             comentarios.forEach(comentario => {
-                const creador= usuario.userId===comentario.usertag;
+                const creador = usuario.userId === comentario.usertag;
                 comentariosHTML += `<publication-comment usertag="${comentario.usertag}" texto="${comentario.texto === undefined || comentario.texto === null ? "" : comentario.texto}" 
-                    imagen="${comentario.img === undefined || comentario.img === null ? "" : comentario.img}" creador="${creador}"></publication-comment>`
+                    imagen="${comentario.img === undefined || comentario.img === null ? "" : comentario.img}" creador="${creador}" comentario-id="${comentario._id}" publicacion-id="${publicacionID}"></publication-comment>`        
             });
+            
             this.#agregaEstilo(shadow);
             return comentariosHTML;
         }else{
             return "";
         }
     }
+
+    async #obtenerComentario(idPublicacion, publicacion) {
+        try {
+            const response = await obtenerComentarioReciente(idPublicacion);
+          
+    
+            const token = localStorage.getItem('jwtToken');
+            const usuario = obtenerUsuarioDesdeToken(token);
+            const creador = usuario.userId === publicacion.usertag;
+            
+            
+            const comentarioPrueba = {
+                usertag: response.usertag,
+                texto: response.texto,
+                imagen: response.img || '',
+                creador: creador,
+                comentarioId: response._id,
+                publicacionId: idPublicacion
+            };
+            console.log(comentarioPrueba)
+            this.#agregarComentarioAlDOM(comentarioPrueba, idPublicacion);
+        } catch (error) {
+            console.error(error);
+        }
+    }
+    #agregarComentarioAlDOM(comentario, idPublicacion) {
+     
+        const publicacionContainer = this.shadowRoot.querySelector('.nuevos');
+
+       
+        const nuevoComentario = document.createElement('publication-comment');
+        nuevoComentario.setAttribute('usertag', comentario.usertag);
+        nuevoComentario.setAttribute('texto', comentario.texto);
+        nuevoComentario.setAttribute('imagen', comentario.imagen);
+        nuevoComentario.setAttribute('creador', comentario.creador);
+        nuevoComentario.setAttribute('comentario-id', comentario.comentarioId);
+        nuevoComentario.setAttribute('publicacion-id', idPublicacion);
+       
+        publicacionContainer.appendChild(nuevoComentario);
+    }
+
 
     async #recuperarPublicacion(shadow){
         try {

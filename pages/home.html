@@ -10,10 +10,12 @@
 
   <link rel="stylesheet" href="../css/header.css">
   <script type="module" src="../components/modals/update.js"></script>
-  <script type="module" src="../components/header/header.js"></script> 
-  <script type="module" src="../components/modals/addPublication.js"></script> 
+  <script type="module" src="../components/header/header.js"></script>
+  <script type="module" src="../components/modals/addPublication.js"></script>
 
   <script src="../services/loadPublicaciones.js" defer></script>
+
+  <script type="module" src="../services/firebase.js"> </script>
 
   <script type="module" src="../components/publicar/publicar.js"></script>
   <script type="module" src="../components/publicacion/publicacion.js"></script>
@@ -21,6 +23,7 @@
   <script type="module" src="../components/publicacion/publicationContent.js"></script>
   <script type="module" src="../components/publicacion/publicationHeader.js"></script>
   <script type="module" src="../components/publicacion/commentPublication.js"></script>
+  <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
   <title>Faceboot</title>
 </head>
 
@@ -29,58 +32,50 @@
     <header-comp></header-comp>
   </header>
   <update-comp></update-comp>
- 
+
   <addpublication-comp></addpublication-comp>
   <publicar-comp></publicar-comp>
   <button onclick=recuperarPublicaciones()>Cargar otra</button>
 
   <div id="contenedor-publicaciones"></div>
+  <script>
+    // Conecta con el servidor de sockets
+    const socket = io('http://localhost:3211');
 
+    // Evento para eliminar un comentario
+    socket.on('comentarioEliminado', (data) => {
+      const comentarioId = data.idComentario;
 
-  <!-- <user-publication></user-publication> -->
+      // Crea un evento personalizado para eliminar el comentario
+      const eventoEliminarComentario = new CustomEvent('eliminarComentario', {
+        detail: { comentarioId }
+      });
 
- 
-  <!-- 
-    PRUEBA WEB SOCKET
-    <ul id="messages"></ul>
-  <input type="text" id="mensajeInput" placeholder="Escribe tu mensaje">
-  <button id="enviarMensaje">Enviar Mensaje</button>
-
-  <script type="module">
-    import { io } from 'https://cdn.socket.io/4.3.2/socket.io.esm.min.js';
-
-    const socket = io('http://localhost:2222');
-
-    const button = document.getElementById('enviarMensaje');
-    const input = document.getElementById('mensajeInput');
-    const messages = document.getElementById('messages');
-
-    socket.on('chat message', (msg) => {
-      const item = <li>${msg}</i>
-      messages.insertAdjacentHTML('beforeend', item);
-    })
-
-    button.addEventListener('click', (e) => {
-      e.preventDefault()
-
-      if(input.value){
-        socket.emit('chat message', input.value);
-        input.value = '';
-      }
-
-    })
-
-    socket.on('connect', () => {
-      console.log('Conectado al servidor de Socket.io');
+      window.dispatchEvent(eventoEliminarComentario);
     });
 
-    socket.on('mensaje', (mensaje) => {
-      io.emit('mensaje', mensaje)
+    socket.on('comentarioAgregado', (data) => {
+      const idPublicacion = data.idPublicacion;
+      const eventoAgregarComentario = new CustomEvent('agregarComentario', {
+        detail: { idPublicacion }
+      });
+
+      window.dispatchEvent(eventoAgregarComentario);
     });
 
+    socket.on('comentarioEditado', (data) => {
+      const idComentario = data.idComentario;
+      const nuevoTexto = data.nuevoTexto;
+      const nuevaImagen = data.nuevaImagen;
 
+      const eventoActualizarComentario = new CustomEvent('actualizarComentario', {
+        detail: { idComentario, nuevoTexto, nuevaImagen }
+      });
 
-  </script> -->
+      window.dispatchEvent(eventoActualizarComentario);
+    });
+
+  </script>
 </body>
 
 </html>

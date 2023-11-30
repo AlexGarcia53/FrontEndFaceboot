@@ -1,5 +1,5 @@
 export async function obtenerPublicacion() {
-    const token = localStorage.getItem('jwtToken');
+    const token = sessionStorage.getItem('jwtToken');
 
     if (!token) {
         alert('Token no encontrado. Inicia sesión para obtener uno.');
@@ -33,7 +33,7 @@ export async function obtenerPublicacion() {
 }
 
 export async function addPublication(usertag, texto, img, fechaCreacion) {
-    const token = localStorage.getItem('jwtToken');
+    const token = sessionStorage.getItem('jwtToken');
 
     if (!token) {
         alert('Token no encontrado. Inicia sesión para obtener uno.');
@@ -73,7 +73,7 @@ export async function addPublication(usertag, texto, img, fechaCreacion) {
 }
 
 export async function editPublication(usertag, texto, img, fechaCreacion, id) {
-    const token = localStorage.getItem('jwtToken');
+    const token = sessionStorage.getItem('jwtToken');
 
     if (!token) {
         alert('Token no encontrado. Inicia sesión para obtener uno.');
@@ -113,7 +113,7 @@ export async function editPublication(usertag, texto, img, fechaCreacion, id) {
 }
 
 export async function obtenerPublicacionesIndice(indice) {
-    const token = localStorage.getItem('jwtToken');
+    const token = sessionStorage.getItem('jwtToken');
 
     if (!token) {      
         alert('Token no encontrado. Inicia sesión para obtener uno.');  
@@ -147,7 +147,7 @@ export async function obtenerPublicacionesIndice(indice) {
 }
 
 export async function deletePublication(id) {
-    const token = localStorage.getItem('jwtToken');
+    const token = sessionStorage.getItem('jwtToken');
 
     if (!token) {
         alert('Token no encontrado. Inicia sesión para obtener uno.');

@@ -112,7 +112,7 @@ class AddComment extends HTMLElement {
     async #handleAddComment(event, publicacionId) {
         event.preventDefault();
 
-        const token = localStorage.getItem('jwtToken');
+        const token = sessionStorage.getItem('jwtToken');
         const usuario = obtenerUsuarioDesdeToken(token);
         const usertag = usuario.userId;
     

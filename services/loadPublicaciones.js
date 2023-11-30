@@ -24,7 +24,7 @@ async function recuperarPublicaciones() {
 }
 
 async function obtenerPublicacionesIndice(indice) {
-    const token = localStorage.getItem('jwtToken');
+    const token = sessionStorage.getItem('jwtToken');
 
     if (!token) {      
         alert('Token no encontrado. Inicia sesión para obtener uno.');  

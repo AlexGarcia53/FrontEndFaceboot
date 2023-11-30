@@ -104,7 +104,7 @@ export class Update extends HTMLElement{
     }
 
     async #consultaUsuario() {
-        const token= localStorage.getItem('jwtToken');
+        const token= sessionStorage.getItem('jwtToken');
         const usuario= obtenerUsuarioDesdeToken(token);
         const usertag = usuario.userId;
     

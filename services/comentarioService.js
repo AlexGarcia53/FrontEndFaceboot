@@ -1,6 +1,6 @@
 
 export async function addComment(usertag, texto, img, fechaCreacion, id) {
-    const token = localStorage.getItem('jwtToken');
+    const token = sessionStorage.getItem('jwtToken');
 
     if (!token) {
         alert('Token no encontrado. Inicia sesión para obtener uno.');
@@ -40,7 +40,7 @@ export async function addComment(usertag, texto, img, fechaCreacion, id) {
 }
 
 export async function editComment(usertag, texto, img, fechaCreacion, idPublicacion, idComentario) {
-    const token = localStorage.getItem('jwtToken');
+    const token = sessionStorage.getItem('jwtToken');
 
     if (!token) {
         alert('Token no encontrado. Inicia sesión para obtener uno.');
@@ -83,7 +83,7 @@ export async function editComment(usertag, texto, img, fechaCreacion, idPublicac
 }
 
 export async function deleteComment(publicacionId, comentarioId) {
-    const token = localStorage.getItem('jwtToken');
+    const token = sessionStorage.getItem('jwtToken');
 
     if (!token) {
         alert('Token no encontrado. Inicia sesión para obtener uno.');
@@ -113,7 +113,7 @@ export async function deleteComment(publicacionId, comentarioId) {
 }
 
 export async function obtenerComentarioReciente(id) {
-    const token = localStorage.getItem('jwtToken');
+    const token = sessionStorage.getItem('jwtToken');
 
     if (!token) {      
         alert('Token no encontrado. Inicia sesión para obtener uno.');  

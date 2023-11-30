@@ -30,7 +30,7 @@ class Publication extends HTMLElement {
     }
 
     #render(shadow, publicacion, comentarios){
-        const token = localStorage.getItem('jwtToken');
+        const token = sessionStorage.getItem('jwtToken');
         const usuario = obtenerUsuarioDesdeToken(token);
         const creador= usuario.userId===publicacion.usertag;
         shadow.innerHTML = `
@@ -58,7 +58,7 @@ class Publication extends HTMLElement {
     }
 
     #organizarComentarios(shadow, publicacion){
-        const token = localStorage.getItem('jwtToken');
+        const token = sessionStorage.getItem('jwtToken');
         const publicacionID = publicacion._id;
         const usuario = obtenerUsuarioDesdeToken(token);
         if (publicacion.hasOwnProperty('comentarios') && Array.isArray(publicacion.comentarios)) {
@@ -80,23 +80,26 @@ class Publication extends HTMLElement {
     async #obtenerComentario(idPublicacion, publicacion) {
         try {
             const response = await obtenerComentarioReciente(idPublicacion);
-          
+            console.log(response);
     
-            const token = localStorage.getItem('jwtToken');
+            const token = sessionStorage.getItem('jwtToken');
             const usuario = obtenerUsuarioDesdeToken(token);
-            const creador = usuario.userId === publicacion.usertag;
-            
+            const creador = usuario.userId === response.comentario.usertag;
             
             const comentarioPrueba = {
-                usertag: response.usertag,
-                texto: response.texto,
-                imagen: response.img || '',
+                usertag: response.comentario.usertag,
+                texto: response.comentario.texto,
+                imagen: response.comentario.img || '',
                 creador: creador,
-                comentarioId: response._id,
-                publicacionId: idPublicacion
+                comentarioId: response.comentario._id,
+                publicacionId: response.publicacionId
             };
-            console.log(comentarioPrueba)
-            this.#agregarComentarioAlDOM(comentarioPrueba, idPublicacion);
+            //console.log(comentarioPrueba);
+
+            if(response.publicacionId === publicacion._id){
+                this.#agregarComentarioAlDOM(comentarioPrueba, idPublicacion);
+            }
+            //this.#agregarComentarioAlDOM(comentarioPrueba, idPublicacion);
         } catch (error) {
             console.error(error);
         }

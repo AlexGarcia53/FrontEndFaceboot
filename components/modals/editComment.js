@@ -108,7 +108,7 @@ class EditComment extends HTMLElement {
     async #handleEditComment(event, publicacionId, comentarioId, texto, img) {
         event.preventDefault();
 
-        const token = localStorage.getItem('jwtToken');
+        const token = sessionStorage.getItem('jwtToken');
         const usuario = obtenerUsuarioDesdeToken(token);
         const usertag = usuario.userId;
     

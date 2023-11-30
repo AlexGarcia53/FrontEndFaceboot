@@ -111,7 +111,7 @@ class AddPublication extends HTMLElement {
     async #handleAddPublication(event) {
         event.preventDefault();
 
-        const token = localStorage.getItem('jwtToken');
+        const token = sessionStorage.getItem('jwtToken');
         const usuario = obtenerUsuarioDesdeToken(token);
         const usertag = usuario.userId;
 

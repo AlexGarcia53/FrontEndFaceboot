@@ -63,7 +63,7 @@ class Login extends HTMLElement {
       const token = await login(username, password);
       console.log(token);
       if (token) {
-        localStorage.setItem('jwtToken', token);
+        sessionStorage.setItem('jwtToken', token);
         alert('Inicio de sesión exitoso');
 
         window.location.href = 'home.html';

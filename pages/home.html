@@ -25,6 +25,7 @@
   <script type="module" src="../components/publicacion/publicationHeader.js"></script>
   <script type="module" src="../components/publicacion/commentPublication.js"></script>
   <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+  
   <title>Faceboot</title>
 </head>
 
@@ -39,44 +40,7 @@
   <button onclick=recuperarPublicaciones()>Cargar otra</button>
 
   <div id="contenedor-publicaciones"></div>
-  <script>
-    // Conecta con el servidor de sockets
-    const socket = io('http://localhost:3211');
-
-    // Evento para eliminar un comentario
-    socket.on('comentarioEliminado', (data) => {
-      const comentarioId = data.idComentario;
-
-      // Crea un evento personalizado para eliminar el comentario
-      const eventoEliminarComentario = new CustomEvent('eliminarComentario', {
-        detail: { comentarioId }
-      });
-
-      window.dispatchEvent(eventoEliminarComentario);
-    });
-
-    socket.on('comentarioAgregado', (data) => {
-      const idPublicacion = data.idPublicacion;
-      const eventoAgregarComentario = new CustomEvent('agregarComentario', {
-        detail: { idPublicacion }
-      });
-
-      window.dispatchEvent(eventoAgregarComentario);
-    });
-
-    socket.on('comentarioEditado', (data) => {
-      const idComentario = data.idComentario;
-      const nuevoTexto = data.nuevoTexto;
-      const nuevaImagen = data.nuevaImagen;
-
-      const eventoActualizarComentario = new CustomEvent('actualizarComentario', {
-        detail: { idComentario, nuevoTexto, nuevaImagen }
-      });
-
-      window.dispatchEvent(eventoActualizarComentario);
-    });
-
-  </script>
+  <script type="module" src="../services/webSocketService.js"></script>
 </body>
 
 </html>

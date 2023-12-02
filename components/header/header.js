@@ -1,3 +1,6 @@
+import { obtenerPublicacionesContenido } from '../../services/publicacionService.js';
+import { reiniciarIndice } from '../../services/loadPublicaciones.js';
+import { recuperarPublicaciones } from '../../services/loadPublicaciones.js';
 import '../modals/update.js';
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -33,7 +36,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
                       <path d="M21 21l-6 -6" />
                   </svg>
-                  <input type="text" placeholder="Buscar en faceboot...">
+                  <input type="text" placeholder="Buscar en faceboot..." id="buscarPublicacion">
               </div>
           </div>
           <div class="nav-right">
@@ -51,27 +54,57 @@ document.addEventListener("DOMContentLoaded", function () {
       </nav>`;
         }
 
-        #agregaEstilo(shadow) {
-            let link = document.createElement('link');
-            link.setAttribute('rel', 'stylesheet');
-            link.setAttribute('href', '../css/header.css');
-            shadow.appendChild(link);
-        }
+    #agregaEstilo(shadow) {
+        let link = document.createElement('link');
+        link.setAttribute('rel', 'stylesheet');
+        link.setAttribute('href', '../css/header.css');
+        shadow.appendChild(link);
+    }
 
-        #addEventListeners(shadow) {
-            const iconoUsuario = shadow.querySelector("#icono");
-            const logoutButtonContainer = shadow.querySelector('#icono2-container');
+    #addEventListeners(shadow) {
+        const iconoUsuario = shadow.querySelector("#icono");
+        const inputBusqueda= shadow.querySelector('#buscarPublicacion');
+        const logoutButtonContainer = shadow.querySelector('#icono2-container');
 
-            iconoUsuario.addEventListener("click", () => this.#openProfileModal(shadow));
-
-            if (logoutButtonContainer) {
+        iconoUsuario.addEventListener("click", () => this.#openProfileModal(shadow));
+        inputBusqueda.addEventListener("keydown", async function(event) {
+            if(event.key==="Enter"){
+                const contenedorPublicaciones= document.getElementById('contenedor-publicaciones');
+                const botonCargarMas= document.getElementById('cargar-mas');
+                if(inputBusqueda.value!==''){
+                    try{
+                        var publicaciones= await obtenerPublicacionesContenido(inputBusqueda.value);
+                        if(publicaciones){
+                            contenedorPublicaciones.innerHTML= '';
+                            botonCargarMas.style.display= 'none';
+                            //botonCargarMas.remove();
+                            publicaciones.forEach(publicacion =>{
+                                var publicacionString= JSON.stringify(publicacion);
+                                contenedorPublicaciones.insertAdjacentHTML('beforeend', `<user-publication publication='${publicacionString}'></user-publication>`);
+                            });
+                        }else{
+                            console.log("No hay publicaciones");
+                        }
+                    }catch(error){
+                        throw error;
+                    }
+                }else{
+                    contenedorPublicaciones.innerHTML= '';
+                    botonCargarMas.style.display= 'flex';
+                    reiniciarIndice();
+                    recuperarPublicaciones();
+                }
+            }
+        });
+        
+        if (logoutButtonContainer) {
                 logoutButtonContainer.addEventListener('click', () => {
                     console.log('Clic en el botón de logout');
                     const redirectTo = 'login.html';
                     window.location.href = redirectTo;
                 });
             }
-        }
+    }
 
         #openProfileModal(shadow) {
             const updateComp = shadow.querySelector('update-comp');

@@ -138,7 +138,6 @@ export async function obtenerUsuario(usertag, token) {
             throw new Error(data.error);
         }
 
-        //console.log(data);
         return data;
     } catch (error) {
         console.error('Error al obtener usuario:', error.message);

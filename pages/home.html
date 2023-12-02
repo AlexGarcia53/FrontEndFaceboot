@@ -7,7 +7,7 @@
   <link rel="stylesheet" href="../css/publicationHeader.css">
   <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Roboto:wght@400;700&display=swap">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/5.15.3/css/all.min.css" integrity="sha384-ezbd1V/Zzof8cGhX6Azbh8yPBLjl/H6l5bsdw6Lb1RPI1d5CgLczpLj2fva/bZ3" crossorigin="anonymous">
   <link rel="stylesheet" href="../css/header.css">
   <script type="module" src="../components/modals/update.js"></script>
   <script type="module" src="../components/header/header.js"></script>
@@ -24,7 +24,7 @@
 
   <script type="module" src="../services/loadPublicaciones.js" defer></script>
   <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
-  <!-- <script type="module" src="../services/searchPublicaciones.js" defer></script> -->
+
   <title>Faceboot</title>
 </head>
 
@@ -36,10 +36,14 @@
 
   <addpublication-comp></addpublication-comp>
   <publicar-comp></publicar-comp>
-  <button onclick=recuperarPublicaciones()>Cargar otra</button>
+
 
   <div id="contenedor-publicaciones"></div>
   <script type="module" src="../services/webSocketService.js"></script>
+  <button id="cargar-mas" class="boton-cargar">
+    <img src="../imgs/reload.png" id="reload">
+    <p>Cargar más</p>
+  </button>
 </body>
 
 </html>

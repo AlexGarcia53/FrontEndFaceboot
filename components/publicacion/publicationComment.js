@@ -174,7 +174,7 @@ class PublicationComment extends HTMLElement {
             if (idComentario === comentarioIdAEditar) {
                 const nuevoTexto = detalle.nuevoTexto || ""; 
                 const nuevoImagen = detalle.nuevaImagen || ''; 
-                console.log("imagen recuperada:"+nuevoImagen);
+               
                 const comentarioElement = this.shadowRoot.getElementById(idComentario);
                 if (comentarioElement) {
                     const textoComentario = comentarioElement.querySelector(".texto-comentario p");
@@ -208,7 +208,7 @@ class PublicationComment extends HTMLElement {
 
     #openRemoveModal(shadow) {
         const removeComp = shadow.querySelector('removecomm-comp');
-        console.log(removeComp)
+       
         if (removeComp) {
             const modal = removeComp.shadowRoot.querySelector("#modal-publicacion");
             if (modal) {

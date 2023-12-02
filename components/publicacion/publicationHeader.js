@@ -18,7 +18,7 @@ class PublicationHeader extends HTMLElement {
       this.#render(shadow, usertag, fechaCreacion, creador, publicacionId, texto, img);
       this.#agregaEstilo(shadow);
       this.#addEventListeners(shadow)
-      console.log(texto);
+
 
     }
     
@@ -73,10 +73,10 @@ class PublicationHeader extends HTMLElement {
     #openRemoveModal(shadow) {
         const removeComp = shadow.querySelector('removepublication-comp');
 
-        console.log(removeComp)
+  
         if (removeComp) {
             const modal = removeComp.shadowRoot.querySelector("#modal-container");
-            console.log(modal);
+      
             if (modal) {
                 modal.style.display = 'block';
             }

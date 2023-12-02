@@ -1,11 +1,11 @@
 
 const socket = io('http://localhost:3211');
 
-    // Evento para eliminar un comentario
+ 
     socket.on('comentarioEliminado', (data) => {
       const comentarioId = data.idComentario;
 
-      // Crea un evento personalizado para eliminar el comentario
+
       const eventoEliminarComentario = new CustomEvent('eliminarComentario', {
         detail: { comentarioId }
       });

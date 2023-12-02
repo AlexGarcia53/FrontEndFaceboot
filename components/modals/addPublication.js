@@ -90,17 +90,9 @@ class AddPublication extends HTMLElement {
         const closeModalButton = this.shadowRoot.querySelector('#close-modal');
         const formUpdate = this.shadowRoot.querySelector('#my-form-add');
 
-        if (closeModalButton) {
             closeModalButton.addEventListener('click', this.#closeAddModal.bind(this));
-        } else {
-            console.error("Element with ID  'close-modal' not found.");
-        }
-
-        if (formUpdate) {
             formUpdate.addEventListener('submit', this.#handleAddPublication.bind(this));
-        } else {
-            console.error("Element with ID 'form-update' not found.");
-        }
+
     }
 
     #closeAddModal() {
@@ -157,12 +149,11 @@ class AddPublication extends HTMLElement {
 
     #uploadToFirebase(usertag, fechaCreacion, file) {
         return new Promise((resolve, reject) => {
-            const imageUrl = URL.createObjectURL(file);
-            console.log('Image URL:', imageUrl);
+
             const storage = getStorage(app);
 
             const storageRef = ref(storage, 'imgs/' + usertag + " - " + fechaCreacion);
-            console.log(storageRef);
+
             const uploadTask = uploadBytes(storageRef, file);
 
             uploadTask.then((snapshot) => {

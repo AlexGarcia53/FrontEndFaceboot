@@ -71,17 +71,8 @@ export class Register extends HTMLElement {
         const closeModalButton = this.shadowRoot.querySelector('#close-modal');
         const formRegister = this.shadowRoot.querySelector('#my-form-register');
     
-        if (closeModalButton) {
             closeModalButton.addEventListener('click', this.#closeRegisterModal.bind(this));
-        } else {
-            console.error("Element with ID 'close-modal' not found.");
-        }
-    
-        if (formRegister) {
             formRegister.addEventListener('submit', this.#handleRegister.bind(this)); 
-        } else {
-            console.error("Element with ID 'form-register' not found.");
-        }
     }
     
     

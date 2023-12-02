@@ -6,7 +6,7 @@ document.addEventListener("DOMContentLoaded", function() {
     const botonCargarMas= document.getElementById('cargar-mas');
 
     botonCargarMas.addEventListener("click", function() {
-        console.log("Entro");
+    
         recuperarPublicaciones();
     });
 });
@@ -19,7 +19,7 @@ async function recuperarPublicaciones() {
         if(publicaciones){
             publicaciones.forEach(publicacion => {
                 var publicacionString= JSON.stringify(publicacion);
-                console.log(publicacionString);
+               
                 contenedorPublicaciones.insertAdjacentHTML('beforeend', `<user-publication publication='${publicacionString}'></user-publication>`);
             });
         }else{
@@ -60,7 +60,7 @@ async function obtenerPublicacionesIndice(indice) {
             throw new Error(data.error);
         }
 
-        //console.log(data); 
+ 
         return data; 
     } catch (error) {
         console.error('Error al iniciar sesión:', error.message);

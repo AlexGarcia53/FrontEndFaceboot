@@ -114,7 +114,7 @@ class EditComment extends HTMLElement {
     
         const textarea = this.shadowRoot.querySelector('#textAreaPublicar');
         texto = textarea.value.trim();
-        console.log("texto editado:"+texto);
+  
     
         const imageInput = this.shadowRoot.querySelector('#imageInput');
         const fechaCreacion = this.#getDateFormat();
@@ -125,7 +125,7 @@ class EditComment extends HTMLElement {
         
         try {
             const data = await editComment(usertag, texto, imagen, fechaCreacion, publicacionId, comentarioId);
-            console.log(data);
+  
             if (data) {
                 textarea.value = '';
                 if (imageInput) {

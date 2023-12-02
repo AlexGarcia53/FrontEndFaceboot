@@ -16,6 +16,10 @@ nav {
     width: 120px;
 }
 
+.log-out {
+    cursor: pointer;
+}
+
 .icono-usuario, .add-publication {
     width: 50px;
     height: 50px;

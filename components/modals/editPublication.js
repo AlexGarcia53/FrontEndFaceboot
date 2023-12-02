@@ -14,9 +14,9 @@ class EditPublication extends HTMLElement {
         this.attachShadow({ mode: 'open' });
         
         this.texto = this.getAttribute('texto');
-        console.log("texto en callback:"+ this.texto)
+  
         this.img = this.getAttribute('img');
-        console.log(this.texto);
+     
         this.#render(this.texto);
         this.#agregaEstilo();
     }
@@ -97,8 +97,7 @@ class EditPublication extends HTMLElement {
     #addEventListeners(publicacionId) {
         const closeModalButton = this.shadowRoot.querySelector('#close-modal');
         const formUpdate = this.shadowRoot.querySelector('#my-form-add');
-        console.log("aqui ando:" + publicacionId)
-
+  
         closeModalButton.addEventListener('click', this.#closeAddModal.bind(this));
         formUpdate.addEventListener('submit', (event) => this.#handleEditPublication(event, publicacionId));
 
@@ -128,7 +127,7 @@ class EditPublication extends HTMLElement {
 
         try {
             const data = await editPublication(usertag, this.texto, img, fechaCreacion, publicacionId);
-            console.log(data);
+      
             if (data) {
 
                 alert('Se editó tu publicación');
@@ -155,8 +154,7 @@ class EditPublication extends HTMLElement {
 
     #uploadToFirebase(usertag, fechaCreacion, file) {
         return new Promise((resolve, reject) => {
-            const imageUrl = URL.createObjectURL(file);
-            console.log('Image URL:', imageUrl);
+
             const storage = getStorage(app);
 
             const storageRef = ref(storage, 'imgs/' + usertag + " - " + fechaCreacion);

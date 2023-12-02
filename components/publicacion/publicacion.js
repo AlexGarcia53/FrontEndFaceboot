@@ -16,7 +16,7 @@ class Publication extends HTMLElement {
         const shadow = this.attachShadow({ mode: 'open' });
 
         var publication= JSON.parse(this.getAttribute('publication'));
-        console.log(publication);
+   
         const comentarios= this.#organizarComentarios(shadow, publication);
         this.#render(shadow, publication, comentarios);
 
@@ -80,7 +80,7 @@ class Publication extends HTMLElement {
     async #obtenerComentario(idPublicacion, publicacion) {
         try {
             const response = await obtenerComentarioReciente(idPublicacion);
-            console.log(response);
+          
     
             const token = sessionStorage.getItem('jwtToken');
             const usuario = obtenerUsuarioDesdeToken(token);
@@ -94,12 +94,11 @@ class Publication extends HTMLElement {
                 comentarioId: response.comentario._id,
                 publicacionId: response.publicacionId
             };
-            //console.log(comentarioPrueba);
 
             if(response.publicacionId === publicacion._id){
                 this.#agregarComentarioAlDOM(comentarioPrueba, idPublicacion);
             }
-            //this.#agregarComentarioAlDOM(comentarioPrueba, idPublicacion);
+  
         } catch (error) {
             console.error(error);
         }
@@ -125,7 +124,7 @@ class Publication extends HTMLElement {
         try {
             const publicacion = await obtenerPublicacion();
             if (publicacion) {
-                console.log(publicacion)
+             
                 if(publicacion.hasOwnProperty('comentarios') && Array.isArray(publicacion.comentarios)){
                     const comentarios= publicacion.comentarios;
                     let comentariosHTML= '';

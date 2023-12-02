@@ -61,17 +61,10 @@ export class Update extends HTMLElement{
         const closeModalButton= this.shadowRoot.querySelector('#close-modal');
         const formUpdate= this.shadowRoot.querySelector('#my-form-update');
 
-        if(closeModalButton){
-            closeModalButton.addEventListener('click', this.#closeUpdateModal.bind(this));
-        } else{
-            console.error("Element with ID  'close-modal' not found.");
-        }
 
-        if(formUpdate){
+            closeModalButton.addEventListener('click', this.#closeUpdateModal.bind(this));
             formUpdate.addEventListener('submit', this.#handleUpdate.bind(this));
-        } else{
-            console.error("Element with ID 'form-update' not found.");
-        }
+  
     }
 
     #closeUpdateModal(){

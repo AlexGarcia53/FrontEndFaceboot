@@ -66,7 +66,6 @@ class RemoveComment extends HTMLElement {
             
             
             if (data === undefined) {
-                console.log("gyat");
                 window.dispatchEvent(new CustomEvent('comentarioEliminado', { detail: comentarioId }));
                 this.#closeRemoveModal();
             } 

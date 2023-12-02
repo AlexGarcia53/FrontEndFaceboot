@@ -92,18 +92,13 @@ export class Register extends HTMLElement {
 
     async #handleRegister(event) {
         event.preventDefault();
-        console.log("hola register");
+   
         const formData = new FormData(event.target);
         const usertag = formData.get('newUsertag');
         const username = formData.get('newUsername');
         const password = formData.get('newPassword');
         const gender = formData.get('gender');
         const birthdate = formData.get('birthdate');
-        console.log(usertag);
-        console.log(username);
-        console.log(password);
-        console.log(gender);
-        console.log(birthdate);
 
         try {
             const data = await register(usertag, username, password, gender, birthdate);

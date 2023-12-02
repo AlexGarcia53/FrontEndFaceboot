@@ -1,20 +1,36 @@
-import { io } from 'https://cdn.socket.io/4.3.2/socket.io.esm.min.js';
 
-// Reemplaza 'http://localhost:3000' con la URL de tu servidor Socket.io
-const socket = io('http://localhost:2222');
+const socket = io('http://localhost:3211');
 
-// Evento para manejar la conexión exitosa
-socket.on('connect', () => {
-  console.log('Conectado al servidor de Socket.io');
-});
+    // Evento para eliminar un comentario
+    socket.on('comentarioEliminado', (data) => {
+      const comentarioId = data.idComentario;
 
-// Evento para manejar mensajes del servidor
-socket.on('mensaje', (mensaje) => {
-  console.log('Mensaje del servidor:', mensaje);
-});
+      // Crea un evento personalizado para eliminar el comentario
+      const eventoEliminarComentario = new CustomEvent('eliminarComentario', {
+        detail: { comentarioId }
+      });
 
-// Enviar un mensaje al servidor
-document.getElementById('enviarMensaje').addEventListener('click', () => {
-  const mensaje = document.getElementById('mensajeInput').value;
-  socket.emit('mensaje_desde_cliente', mensaje);
-});
+      window.dispatchEvent(eventoEliminarComentario);
+    });
+
+    socket.on('comentarioAgregado', (data) => {
+      const idPublicacion = data.idPublicacion;
+      const eventoAgregarComentario = new CustomEvent('agregarComentario', {
+        detail: { idPublicacion }
+      });
+
+      window.dispatchEvent(eventoAgregarComentario);
+    });
+
+    socket.on('comentarioEditado', (data) => {
+      const idComentario = data.idComentario;
+      const nuevoTexto = data.nuevoTexto;
+      const nuevaImagen = data.nuevaImagen;
+
+      const eventoActualizarComentario = new CustomEvent('actualizarComentario', {
+        detail: { idComentario, nuevoTexto, nuevaImagen }
+      });
+
+      window.dispatchEvent(eventoActualizarComentario);
+    });
+

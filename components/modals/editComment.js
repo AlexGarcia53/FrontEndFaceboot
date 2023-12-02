@@ -1,5 +1,7 @@
 import { obtenerUsuarioDesdeToken } from "../../services/usuarioService.js";
 import { editComment } from "../../services/comentarioService.js";
+import { getStorage, ref, uploadBytes, getDownloadURL } from "https://www.gstatic.com/firebasejs/9.6.1/firebase-storage.js";
+import { app } from "../../services/firebaseConfig.js";
 
 class EditComment extends HTMLElement {
     constructor() {
@@ -8,11 +10,14 @@ class EditComment extends HTMLElement {
 
     connectedCallback() {
         this.attachShadow({ mode: 'open' });
-        this.#render();
+        const texto = this.getAttribute('texto');
+        const img = this.getAttribute('img');
+        this.#render(texto, img);
         this.#agregaEstilo();
+        
     }
 
-    #render() {
+    #render(texto, img) {
         this.shadowRoot.innerHTML = `
             <div id="modal-publicacion" class="modal">
                 <div class="modal-content">
@@ -38,7 +43,7 @@ class EditComment extends HTMLElement {
                             
                                 
                                 <label for="imageInput" class="custom-file-input" margin-bottom: -15px;">
-                                <p>Añadir a tu publicación</p>
+                                <p id="textoArchivo">Añadir a tu comentario</p>
                                 <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-photo-plus"
                                     width="30" height="30" viewBox="0 0 24 24" stroke-width="1" stroke="#00b341" fill="none"
                                     stroke-linecap="round" stroke-linejoin="round" style=margin-top: -35px;">
@@ -53,7 +58,7 @@ class EditComment extends HTMLElement {
                                 </label>
                                 <input type="file" accept="image/*" id="imageInput" style="display:none" />
                           
-                            <button id="btn-publicar">Publicar</button>
+                            <button id="btn-publicar">Editar comentario</button>
                             </form>
                         </div>
                     </div>
@@ -62,9 +67,22 @@ class EditComment extends HTMLElement {
         `;   
       
         const imageInput = this.shadowRoot.querySelector('#imageInput');
+        const textoArchivo = this.shadowRoot.querySelector('#textoArchivo');
 
-        imageInput.addEventListener('change', this.#handleImageUpload.bind(this));
-        this.#addEventListeners();
+        imageInput.addEventListener('change', function () {
+            if (imageInput.files.length > 0) {
+                textoArchivo.innerText = 'Archivo seleccionado';
+            } else {
+                textoArchivo.innerText = 'Seleccionar archivo';
+            }
+        });
+
+        const textarea = this.shadowRoot.querySelector('#textAreaPublicar');
+        textarea.value = texto;      
+     
+        const publicacionId = this.getAttribute('publicacion-id');
+        const comentarioId = this.getAttribute('comentario-id');
+        this.#addEventListeners(publicacionId, comentarioId, texto, img);       
     }
 
     #agregaEstilo() {
@@ -74,21 +92,12 @@ class EditComment extends HTMLElement {
         this.shadowRoot.appendChild(link);
     }
 
-    #addEventListeners() {
+    #addEventListeners(publicacionId, comentarioId, texto, img) {
         const closeModalButton = this.shadowRoot.querySelector('#close-modal');
         const formUpdate = this.shadowRoot.querySelector('#my-form-add');
 
-        if (closeModalButton) {
-            closeModalButton.addEventListener('click', this.#closeAddModal.bind(this));
-        } else {
-            console.error("Element with ID  'close-modal' not found.");
-        }
-
-        if (formUpdate) {
-            formUpdate.addEventListener('submit', this.#handleAddPublication.bind(this));
-        } else {
-            console.error("Element with ID 'form-update' not found.");
-        }
+        closeModalButton.addEventListener('click', this.#closeAddModal.bind(this));
+        formUpdate.addEventListener('submit', (event) => this.#handleEditComment(event, publicacionId, comentarioId, texto, img));
     }
 
     #closeAddModal() {
@@ -96,40 +105,33 @@ class EditComment extends HTMLElement {
         modal.classList.remove("modal-open");
     }
 
-    #handleImageUpload(event) {
-        const fileInput = event.target;
-        const file = fileInput.files[0];
-
-        if (file) {
-            const imageUrl = URL.createObjectURL(file);
-            console.log('Image URL:', imageUrl);
-        } else {
-            console.log('No file selected');
-        }
-    }
-
-    async #handleAddPublication(event) {
+    async #handleEditComment(event, publicacionId, comentarioId, texto, img) {
         event.preventDefault();
 
-        const token = localStorage.getItem('jwtToken');
+        const token = sessionStorage.getItem('jwtToken');
         const usuario = obtenerUsuarioDesdeToken(token);
         const usertag = usuario.userId;
-
+    
         const textarea = this.shadowRoot.querySelector('#textAreaPublicar');
-        const texto = textarea.value.trim();
-
+        texto = textarea.value.trim();
+        console.log("texto editado:"+texto);
+    
         const imageInput = this.shadowRoot.querySelector('#imageInput');
-        const img = this.#getImageUrl(imageInput);
-
+        const fechaCreacion = this.#getDateFormat();
+        let imagen = img;
+        if(imageInput.files[0]) {
+            imagen = await this.#uploadToFirebase(usertag, fechaCreacion, imageInput.files[0]); 
+        } 
+        
         try {
-            const data = await editComment(usertag, texto, img);
+            const data = await editComment(usertag, texto, imagen, fechaCreacion, publicacionId, comentarioId);
             console.log(data);
             if (data) {
                 textarea.value = '';
                 if (imageInput) {
                     imageInput.value = '';
                 }
-                alert('Se editó tu publicación');
+                alert('Se editó tu comentario');
                 this.#closeAddModal();
             }
         } catch (error) {
@@ -137,11 +139,38 @@ class EditComment extends HTMLElement {
         }
     }
 
-    #getImageUrl(inputElement) {
-        const file = inputElement ? inputElement.files[0] : null;
-        return file ? URL.createObjectURL(file) : '';
+    #getDateFormat() {
+        const fechaActual = new Date();
+        const anio = fechaActual.getFullYear();
+        const mes = (fechaActual.getMonth() + 1).toString().padStart(2, '0');
+        const dia = fechaActual.getDate().toString().padStart(2, '0');
+        const horas = fechaActual.getHours().toString().padStart(2, '0');
+        const minutos = fechaActual.getMinutes().toString().padStart(2, '0');
+        const segundos = fechaActual.getSeconds().toString().padStart(2, '0');
+
+        const fechaCreacion = `${anio}-${mes}-${dia} ${horas}:${minutos}:${segundos}`;
+        
+        return fechaCreacion;
     }
 
+    #uploadToFirebase(usertag, fechaCreacion, file) {
+        return new Promise((resolve, reject) => {
+
+            const storage = getStorage(app);
+            const storageRef = ref(storage, 'imgs/' + usertag +" - " + fechaCreacion);
+            const uploadTask = uploadBytes(storageRef, file);
+    
+            uploadTask.then((snapshot) => {
+                getDownloadURL(snapshot.ref).then((downloadURL) => {
+
+                    resolve(downloadURL); 
+                });
+            }).catch((error) => {
+                console.error('Error al subir la imagen:', error);
+                reject(error); 
+            });
+        });
+    }
 }
 
 

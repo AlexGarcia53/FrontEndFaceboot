@@ -19,7 +19,7 @@ async function recuperarPublicaciones() {
         if(publicaciones){
             publicaciones.forEach(publicacion => {
                 var publicacionString= JSON.stringify(publicacion);
-                //console.log(publicacionString);
+                console.log(publicacionString);
                 contenedorPublicaciones.insertAdjacentHTML('beforeend', `<user-publication publication='${publicacionString}'></user-publication>`);
             });
         }else{
@@ -35,7 +35,7 @@ function reiniciarIndice(){
 }
 
 async function obtenerPublicacionesIndice(indice) {
-    const token = localStorage.getItem('jwtToken');
+    const token = sessionStorage.getItem('jwtToken');
 
     if (!token) {      
         alert('Token no encontrado. Inicia sesión para obtener uno.');  
@@ -70,3 +70,4 @@ async function obtenerPublicacionesIndice(indice) {
 
 export {recuperarPublicaciones};
 export {reiniciarIndice};
+

@@ -1,0 +1,123 @@
+
+.modal {
+ 
+    display: none;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+
+.modal-open {
+    display: flex;
+}
+
+.custom-file-input {
+    display: flex;
+    cursor: pointer;
+    user-select: none;
+    justify-content: center; 
+    align-items: center; 
+    margin: 10px auto; 
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    width: 70%;
+}
+
+
+.modal-content, .modal-publication {
+    background-color: #fff;
+    width: 420px; 
+    height: auto;
+    margin: 10% auto;
+    overflow: visible; 
+    padding: 20px;
+    box-shadow: 0px 0px 20px -7px;
+    border-radius: 10px;
+    position: relative;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+}
+
+
+.header-modal-remove {
+    display: flex;
+    justify-content: space-between;
+    border: 2px solid #4e1111;
+    background-color: #c04545;
+    border-radius: 15px;
+    padding: 4px;
+    margin-bottom: 15px;
+}
+
+.header-modal-remove span {
+    text-align: center;
+    user-select: none;
+    margin: auto;
+    color: #fff;
+    font-weight: bold;
+    padding: 10px;
+    
+    
+}
+
+.body-modal-remove {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    height: 65%;
+    width: 100%;
+    padding: 10px;
+    box-sizing: border-box;
+}
+
+
+#btn-cancelar {
+    display: flex;
+    cursor: pointer;
+    user-select: none;
+    justify-content: center; 
+    align-items: center; 
+    margin: 5px auto; 
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    width: 70%;
+    padding: 2%;
+    font-size: 16px; 
+    font-weight: bold;
+
+}
+
+ #btn-confirmar {
+    display: flex;
+    cursor: pointer;
+    user-select: none;
+    justify-content: center; 
+    align-items: center; 
+    margin: 0px auto; 
+    background-color: #fff;
+    border: 1px solid #ccc;
+    border-radius: 15px;
+    width: 70%;
+    padding: 2%;
+    font-size: 16px; 
+    font-weight: bold;
+
+}
+
+
+#btn-cancelar:hover {
+    background-color: rgb(104, 155, 221);
+    color:#fff;
+    border: 2px solid rgb(47, 121, 218);
+}
+
+#btn-confirmar:hover {
+    background-color: rgb(221, 104, 104);
+    color:#fff;
+    border: 2px solid rgb(212, 46, 46);
+}
+

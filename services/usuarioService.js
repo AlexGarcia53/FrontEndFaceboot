@@ -1,3 +1,4 @@
+
 export async function login(username, contrasenia) {
     const url = 'http://localhost:2222/auth/iniciarSesion/';
 
@@ -64,7 +65,7 @@ export async function register(usertag, username, contrasenia, sexo, fechaNacimi
 export async function update(username, contrasenia, sexo, fechaNacimiento){
     const url= 'http://localhost:2222/api/v2/usuario/editar';
 
-    const token = localStorage.getItem('jwtToken');
+    const token = sessionStorage.getItem('jwtToken');
     const usuario = obtenerUsuarioDesdeToken(token);
     const usertag = usuario.userId;
 

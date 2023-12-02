@@ -4,6 +4,7 @@ import { recuperarPublicaciones } from '../../services/loadPublicaciones.js';
 import '../modals/update.js';
 
 document.addEventListener("DOMContentLoaded", function () {
+
     class Header extends HTMLElement {
 
         constructor() {
@@ -13,12 +14,12 @@ document.addEventListener("DOMContentLoaded", function () {
         connectedCallback() {
             const shadow = this.attachShadow({ mode: 'open' });
 
-
-            //this.#recuperarPublicacion(shadow);
             this.#render(shadow);
             this.#agregaEstilo(shadow);
             this.#addEventListeners(shadow);
             const updateComp = document.createElement('update-comp');
+            const logoutComp= document.createElement('logout-comp');
+            shadow.appendChild(logoutComp);
             shadow.appendChild(updateComp);
         }
 
@@ -28,7 +29,7 @@ document.addEventListener("DOMContentLoaded", function () {
           <div class="nav-left">
               <img src="/imgs/logo-letras-blancas.png" class="logo">
               <div class="barra-busqueda">
-                  <svg id="add-publication" xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="22"
+                  <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-search" width="22"
                       height="22" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none"
                       stroke-linecap="round" stroke-linejoin="round">
                       <path stroke="none" d="M0 0h24v24H0z" fill="none" />
@@ -39,21 +40,19 @@ document.addEventListener("DOMContentLoaded", function () {
               </div>
           </div>
           <div class="nav-right">
-              <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-square-rounded-plus" width="50" height="50" viewBox="0 0 24 24" stroke-width="2" stroke="#0c3770" fill="none" stroke-linecap="round" stroke-linejoin="round">
-                  <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
-                  <path d="M12 3c7.2 0 9 1.8 9 9s-1.8 9 -9 9s-9 -1.8 -9 -9s1.8 -9 9 -9z" />
-                  <path d="M15 12h-6" />
-                  <path d="M12 9v6" />
-              </svg>
-  
-              <img src="/imgs/fotodiscord.PNG" class="icono-usuario", id="icono">
-              
-              
+            <div id="icono2-container">
+                <svg xmlns="http://www.w3.org/2000/svg" class="icon icon-tabler icon-tabler-logout" id="icono2" width="44" height="44" viewBox="0 0 24 24" stroke-width="1.5" stroke="#2c3e50" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <path stroke="none" d="M0 0h24v24H0z" fill="none"/>
+                    <path d="M14 8v-2a2 2 0 0 0 -2 -2h-7a2 2 0 0 0 -2 2v12a2 2 0 0 0 2 2h7a2 2 0 0 0 2 -2v-2" />
+                    <path d="M9 12h12l-3 -3" />
+                    <path d="M18 15l3 -3" />
+                </svg>
+            </div>
+
+            <img src="../imgs/user.png" class="icono-usuario", id="icono">
           </div>
-          
-      </nav>`
-          ;
-      }
+      </nav>`;
+        }
 
     #agregaEstilo(shadow) {
         let link = document.createElement('link');
@@ -65,6 +64,7 @@ document.addEventListener("DOMContentLoaded", function () {
     #addEventListeners(shadow) {
         const iconoUsuario = shadow.querySelector("#icono");
         const inputBusqueda= shadow.querySelector('#buscarPublicacion');
+        const logoutButtonContainer = shadow.querySelector('#icono2-container');
 
         iconoUsuario.addEventListener("click", () => this.#openProfileModal(shadow));
         inputBusqueda.addEventListener("keydown", async function(event) {
@@ -95,19 +95,28 @@ document.addEventListener("DOMContentLoaded", function () {
                     recuperarPublicaciones();
                 }
             }
-        })
+        });
+        
+        if (logoutButtonContainer) {
+                logoutButtonContainer.addEventListener('click', () => {
+                    console.log('Clic en el botón de logout');
+                    const redirectTo = 'login.html';
+                    window.location.href = redirectTo;
+                });
+            }
     }
 
-    #openProfileModal(shadow) {
-        const updateComp = shadow.querySelector('update-comp');
+        #openProfileModal(shadow) {
+            const updateComp = shadow.querySelector('update-comp');
 
-        if (updateComp) {
-            const modal = updateComp.shadowRoot.querySelector("#modal-user");
-            if (modal) {
-                modal.classList.add("modal-open");
+            if (updateComp) {
+                const modal = updateComp.shadowRoot.querySelector("#modal-user");
+                if (modal) {
+                    modal.classList.add("modal-open");
+                }
             }
         }
     }
-}
-customElements.define('header-comp', Header);
+
+    customElements.define('header-comp', Header);
 });

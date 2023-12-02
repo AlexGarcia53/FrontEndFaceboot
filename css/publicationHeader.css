@@ -59,6 +59,7 @@
     border-radius: 10%;
     min-width: 100px;
     box-shadow: 2px 2px 5px black;
+    z-index: 1;
 }
 
 .options_dropdown_content a {
@@ -190,6 +191,7 @@
     border-radius: 15px;
     display: flex;
     flex-direction: column;
+    cursor: pointer;
 }
 
 .agregar-comentario p {

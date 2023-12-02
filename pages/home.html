@@ -10,16 +10,18 @@
 
   <link rel="stylesheet" href="../css/header.css">
   <script type="module" src="../components/modals/update.js"></script>
-  <script type="module" src="../components/header/header.js"></script> 
-  <script type="module" src="../components/modals/addPublication.js"></script> 
+  <script type="module" src="../components/header/header.js"></script>
+  <script type="module" src="../components/modals/addPublication.js"></script>
+  <script type="module" src="../services/firebase.js"> </script>
 
   <script type="module" src="../components/publicar/publicar.js"></script>
+  <script type="module" src="../components/login/verificarToken.js"></script>
   <script type="module" src="../components/publicacion/publicacion.js"></script>
   <script type="module" src="../components/publicacion/publicationComment.js"></script>
   <script type="module" src="../components/publicacion/publicationContent.js"></script>
   <script type="module" src="../components/publicacion/publicationHeader.js"></script>
   <script type="module" src="../components/publicacion/commentPublication.js"></script>
-  
+
   <script type="module" src="../services/loadPublicaciones.js" defer></script>
   <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
   <!-- <script type="module" src="../services/searchPublicaciones.js" defer></script> -->
@@ -31,70 +33,13 @@
     <header-comp></header-comp>
   </header>
   <update-comp></update-comp>
- 
+
   <addpublication-comp></addpublication-comp>
   <publicar-comp></publicar-comp>
-
+  <button onclick=recuperarPublicaciones()>Cargar otra</button>
 
   <div id="contenedor-publicaciones"></div>
-
-  <button id="cargar-mas" class="boton-cargar">
-    <img src="../imgs/reload.png" id="reload">
-    <p>Cargar más</p>
-  </button>
-
-  <script>
-    const socket= io('http://localhost:3211');
-
-    socket.on('publicacionCreada', (data)=> {
-      alert(JSON.stringify(data));
-    })
-  </script>
-
-  <!-- <user-publication></user-publication> -->
-
- 
-  <!-- 
-    PRUEBA WEB SOCKET
-    <ul id="messages"></ul>
-  <input type="text" id="mensajeInput" placeholder="Escribe tu mensaje">
-  <button id="enviarMensaje">Enviar Mensaje</button>
-
-  <script type="module">
-    import { io } from 'https://cdn.socket.io/4.3.2/socket.io.esm.min.js';
-
-    const socket = io('http://localhost:2222');
-
-    const button = document.getElementById('enviarMensaje');
-    const input = document.getElementById('mensajeInput');
-    const messages = document.getElementById('messages');
-
-    socket.on('chat message', (msg) => {
-      const item = <li>${msg}</i>
-      messages.insertAdjacentHTML('beforeend', item);
-    })
-
-    button.addEventListener('click', (e) => {
-      e.preventDefault()
-
-      if(input.value){
-        socket.emit('chat message', input.value);
-        input.value = '';
-      }
-
-    })
-
-    socket.on('connect', () => {
-      console.log('Conectado al servidor de Socket.io');
-    });
-
-    socket.on('mensaje', (mensaje) => {
-      io.emit('mensaje', mensaje)
-    });
-
-
-
-  </script> -->
+  <script type="module" src="../services/webSocketService.js"></script>
 </body>
 
 </html>

@@ -63,7 +63,7 @@ class Login extends HTMLElement {
       const token = await login(username, password);
       console.log(token);
       if (token) {
-        localStorage.setItem('jwtToken', token);
+        sessionStorage.setItem('jwtToken', token);
         alert('Inicio de sesión exitoso');
 
         window.location.href = 'home.html';
@@ -74,16 +74,6 @@ class Login extends HTMLElement {
       console.error(error);
     }
   }
-
-
-//   #handleRegister(e) {
-//     e.preventDefault();
-
-//     console.log('Clic en el botón de registro');
-//     const registerComponent = document.querySelector('register-comp');
-//     console.log(registerComponent);
-//     registerComponent.open();
-// }
 
 }
 

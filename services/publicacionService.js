@@ -1,5 +1,5 @@
 export async function obtenerPublicacion() {
-    const token = localStorage.getItem('jwtToken');
+    const token = sessionStorage.getItem('jwtToken');
 
     if (!token) {
         alert('Token no encontrado. Inicia sesión para obtener uno.');
@@ -33,7 +33,7 @@ export async function obtenerPublicacion() {
 }
 
 export async function addPublication(usertag, texto, img, fechaCreacion) {
-    const token = localStorage.getItem('jwtToken');
+    const token = sessionStorage.getItem('jwtToken');
 
     if (!token) {
         alert('Token no encontrado. Inicia sesión para obtener uno.');
@@ -72,15 +72,15 @@ export async function addPublication(usertag, texto, img, fechaCreacion) {
     }
 }
 
-export async function editPublication(usertag, texto, img, id) {
-    const token = localStorage.getItem('jwtToken');
+export async function editPublication(usertag, texto, img, fechaCreacion, id) {
+    const token = sessionStorage.getItem('jwtToken');
 
     if (!token) {
         alert('Token no encontrado. Inicia sesión para obtener uno.');
         return;
     }
 
-    const url = `http://localhost:2222/api/v2/publicacion?id=${id}`;
+    const url = `http://localhost:2222/api/v2/publicacion/${id}`;
 
     try {
         const response = await fetch(url, {
@@ -93,7 +93,7 @@ export async function editPublication(usertag, texto, img, id) {
                 usertag: usertag,
                 texto: texto,
                 img: img,
-            
+                fechaCreacion: fechaCreacion       
             })
         });
 
@@ -113,7 +113,7 @@ export async function editPublication(usertag, texto, img, id) {
 }
 
 export async function obtenerPublicacionesIndice(indice) {
-    const token = localStorage.getItem('jwtToken');
+    const token = sessionStorage.getItem('jwtToken');
 
     if (!token) {      
         alert('Token no encontrado. Inicia sesión para obtener uno.');  
@@ -143,6 +143,36 @@ export async function obtenerPublicacionesIndice(indice) {
     } catch (error) {
         console.error('Error al iniciar sesión:', error.message);
         throw error;
+    }
+}
+
+export async function deletePublication(id) {
+    const token = sessionStorage.getItem('jwtToken');
+
+    if (!token) {
+        alert('Token no encontrado. Inicia sesión para obtener uno.');
+        return;
+    }
+
+    const url = `http://localhost:2222/api/v2/publicacion/${id}`;
+    console.log(url)
+    try {
+        const response = await fetch(url, {
+            method: 'DELETE',
+            headers: {
+                'Content-Type': 'application/json',
+                'Authorization': `Bearer ${token}`
+            }
+        });
+    
+        if (!response.ok) {
+            const data = await response.json();
+            console.error('Error al eliminar:', data.error);
+        } else {
+            console.log('Publicación eliminada exitosamente');
+        }
+    } catch (error) {
+        console.error('Error en la solicitud DELETE:', error.message);
     }
 }
 
@@ -182,3 +212,4 @@ export async function obtenerPublicacionesContenido(contenido) {
         throw error;
     }
 }
+

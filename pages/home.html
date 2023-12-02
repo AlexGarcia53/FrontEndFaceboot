@@ -13,14 +13,16 @@
   <script type="module" src="../components/header/header.js"></script> 
   <script type="module" src="../components/modals/addPublication.js"></script> 
 
-  <script src="../services/loadPublicaciones.js" defer></script>
-
   <script type="module" src="../components/publicar/publicar.js"></script>
   <script type="module" src="../components/publicacion/publicacion.js"></script>
   <script type="module" src="../components/publicacion/publicationComment.js"></script>
   <script type="module" src="../components/publicacion/publicationContent.js"></script>
   <script type="module" src="../components/publicacion/publicationHeader.js"></script>
   <script type="module" src="../components/publicacion/commentPublication.js"></script>
+  
+  <script type="module" src="../services/loadPublicaciones.js" defer></script>
+  <script src="https://cdn.socket.io/4.0.1/socket.io.min.js"></script>
+  <!-- <script type="module" src="../services/searchPublicaciones.js" defer></script> -->
   <title>Faceboot</title>
 </head>
 
@@ -36,7 +38,18 @@
 
   <div id="contenedor-publicaciones"></div>
 
-  <button onclick=recuperarPublicaciones()>Cargar otra</button>
+  <button id="cargar-mas" class="boton-cargar">
+    <img src="../imgs/reload.png" id="reload">
+    <p>Cargar más</p>
+  </button>
+
+  <script>
+    const socket= io('http://localhost:3211');
+
+    socket.on('publicacionCreada', (data)=> {
+      alert(JSON.stringify(data));
+    })
+  </script>
 
   <!-- <user-publication></user-publication> -->
 

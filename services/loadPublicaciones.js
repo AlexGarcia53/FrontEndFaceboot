@@ -2,6 +2,13 @@ var indice= 0;
 
 document.addEventListener("DOMContentLoaded", function() {
     recuperarPublicaciones();
+
+    const botonCargarMas= document.getElementById('cargar-mas');
+
+    botonCargarMas.addEventListener("click", function() {
+        console.log("Entro");
+        recuperarPublicaciones();
+    });
 });
 
 async function recuperarPublicaciones() {
@@ -21,6 +28,10 @@ async function recuperarPublicaciones() {
     } catch(error){
         throw error;
     }
+}
+
+function reiniciarIndice(){
+    indice=0;
 }
 
 async function obtenerPublicacionesIndice(indice) {
@@ -56,3 +67,6 @@ async function obtenerPublicacionesIndice(indice) {
         throw error;
     }
 }
+
+export {recuperarPublicaciones};
+export {reiniciarIndice};

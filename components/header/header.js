@@ -1,3 +1,6 @@
+import { obtenerPublicacionesContenido } from '../../services/publicacionService.js';
+import { reiniciarIndice } from '../../services/loadPublicaciones.js';
+import { recuperarPublicaciones } from '../../services/loadPublicaciones.js';
 import '../modals/update.js';
 
 document.addEventListener("DOMContentLoaded", function () {
@@ -14,7 +17,7 @@ document.addEventListener("DOMContentLoaded", function () {
             //this.#recuperarPublicacion(shadow);
             this.#render(shadow);
             this.#agregaEstilo(shadow);
-            this.#addEventListeners(shadow)
+            this.#addEventListeners(shadow);
             const updateComp = document.createElement('update-comp');
             shadow.appendChild(updateComp);
         }
@@ -32,7 +35,7 @@ document.addEventListener("DOMContentLoaded", function () {
                       <path d="M10 10m-7 0a7 7 0 1 0 14 0a7 7 0 1 0 -14 0" />
                       <path d="M21 21l-6 -6" />
                   </svg>
-                  <input type="text" placeholder="Buscar en faceboot...">
+                  <input type="text" placeholder="Buscar en faceboot..." id="buscarPublicacion">
               </div>
           </div>
           <div class="nav-right">
@@ -52,7 +55,7 @@ document.addEventListener("DOMContentLoaded", function () {
           ;
       }
 
-      #agregaEstilo(shadow) {
+    #agregaEstilo(shadow) {
         let link = document.createElement('link');
         link.setAttribute('rel', 'stylesheet');
         link.setAttribute('href', '../css/header.css');
@@ -61,8 +64,38 @@ document.addEventListener("DOMContentLoaded", function () {
 
     #addEventListeners(shadow) {
         const iconoUsuario = shadow.querySelector("#icono");
+        const inputBusqueda= shadow.querySelector('#buscarPublicacion');
 
         iconoUsuario.addEventListener("click", () => this.#openProfileModal(shadow));
+        inputBusqueda.addEventListener("keydown", async function(event) {
+            if(event.key==="Enter"){
+                const contenedorPublicaciones= document.getElementById('contenedor-publicaciones');
+                const botonCargarMas= document.getElementById('cargar-mas');
+                if(inputBusqueda.value!==''){
+                    try{
+                        var publicaciones= await obtenerPublicacionesContenido(inputBusqueda.value);
+                        if(publicaciones){
+                            contenedorPublicaciones.innerHTML= '';
+                            botonCargarMas.style.display= 'none';
+                            //botonCargarMas.remove();
+                            publicaciones.forEach(publicacion =>{
+                                var publicacionString= JSON.stringify(publicacion);
+                                contenedorPublicaciones.insertAdjacentHTML('beforeend', `<user-publication publication='${publicacionString}'></user-publication>`);
+                            });
+                        }else{
+                            console.log("No hay publicaciones");
+                        }
+                    }catch(error){
+                        throw error;
+                    }
+                }else{
+                    contenedorPublicaciones.innerHTML= '';
+                    botonCargarMas.style.display= 'flex';
+                    reiniciarIndice();
+                    recuperarPublicaciones();
+                }
+            }
+        })
     }
 
     #openProfileModal(shadow) {
